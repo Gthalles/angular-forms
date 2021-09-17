@@ -1,12 +1,12 @@
-<form action="">
+<form #f="ngForm" (ngSubmit)="onSubmit(f)">
     <div class="form-group">
         <label for="name">Nome:</label>
-        <input type="text" id="name" class="form-control" placeholder="Nome">
+        <input type="text" id="name" class="form-control" placeholder="Nome" name="name" [(ngModel)]="user.name">
     </div>
 
     <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" id="email" class="form-control" placeholder="nome@email.com">
+        <input type="email" id="email" class="form-control" placeholder="nome@email.com" name="email" [(ngModel)]="user.email">
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
