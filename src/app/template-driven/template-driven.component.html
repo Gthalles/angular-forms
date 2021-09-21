@@ -1,4 +1,7 @@
 <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    
+    <app-form-debug [form]="f"></app-form-debug>
+    
     <div class="form-group" [class.has-error]="!name.valid && name.touched"
         [class.has-feedback]="!name.valid && name.touched">
         <label for="name" class="control-label">Nome:</label>
