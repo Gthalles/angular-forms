@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class TemplateDrivenComponent implements OnInit {
 
   user: any = {};
-  
+
   onSubmit(f: any) {
     //3 ways to access the value
     console.log(f.value);
@@ -19,6 +19,17 @@ export class TemplateDrivenComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  validAndTouched(campo: any) {
+    return campo.invalid && campo.touched;
+  }
+
+  applyErrorStyle(campo: any) {
+    return {
+      'has-error': this.validAndTouched(campo),
+      'has-feedback': this.validAndTouched(campo)
+    }
   }
 
 
