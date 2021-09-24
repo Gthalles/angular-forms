@@ -26,65 +26,71 @@
     </div>
   </div>
 
-  <div class="form-group">
-    <div class="col-md-3" [ngClass]="applyErrorStyle(cep)">
-      <label for="cep" class="control-label">CEP</label>
-      <input type="text" class="form-control" id="cep" name="cep" ngModel required #cep="ngModel">
+  <div ngModelGroup="address">
+    <div class="form-group">
+      <div class="col-md-3" [ngClass]="applyErrorStyle(cep)">
+        <label for="cep" class="control-label">CEP</label>
+        <input type="text" class="form-control" id="cep" name="cep" ngModel required #cep="ngModel">
 
-      <app-input-control-errors [showError]="validAndTouched(cep)" errorMessage="CEP é obrigatório">
-      </app-input-control-errors>
+        <app-input-control-errors [showError]="validAndTouched(cep)" errorMessage="CEP é obrigatório">
+        </app-input-control-errors>
+      </div>
+
+      <div class="col-md-6" [ngClass]="applyErrorStyle(number)">
+        <label for="number" class="control-label">Número</label>
+        <input type="text" class="form-control" id="number" name="number" ngModel required #number="ngModel" readonly>
+
+        <app-input-control-errors [showError]="validAndTouched(number)" errorMessage="Número é obrigatório!">
+        </app-input-control-errors>
+      </div>
+
+      <div class="col-md-3">
+        <label for="complement" class="control-label">Complemento</label>
+        <input type="text" class="form-control" id="complement" name="complement" ngModel #complement="ngModel">
+      </div>
     </div>
 
-    <div class="col-md-6" [ngClass]="applyErrorStyle(number)">
-      <label for="number" class="control-label">Número</label>
-      <input type="text" class="form-control" id="number" name="number" ngModel required #number="ngModel" readonly>
+    <div class="form-group" [ngClass]="applyErrorStyle(street)">
 
-      <app-input-control-errors [showError]="validAndTouched(number)" errorMessage="Número é obrigatório!">
-      </app-input-control-errors>
+      <div class="col-sm-12">
+        <label for="street" class="control-label">Rua:</label>
+        <input type="text" id="street" class="form-control" name="street" [(ngModel)]="user.street" required
+          #street="ngModel" readonly>
+
+        <app-input-control-errors [showError]="validAndTouched(street)" errorMessage="Número é obrigatório">
+        </app-input-control-errors>
+      </div>
     </div>
 
-    <div class="col-md-3">
-      <label for="complement" class="control-label">Complemento</label>
-      <input type="text" class="form-control" id="complement" name="complement" ngModel #complement="ngModel">
-    </div>
-  </div>
+    <div class="form-group">
+      <div class="col-md-5" [ngClass]="applyErrorStyle(neighborhood
+)">
+        <label for="neighborhood
+" class="control-label">Bairro</label>
+        <input type="text" class="form-control" id="neighborhood
+" name="neighborhood
+" ngModel required #neighborhood="ngModel" readonly>
 
-  <div class="form-group" [ngClass]="applyErrorStyle(street)">
+        <app-input-control-errors [showError]="validAndTouched(neighborhood
+)" errorMessage="Bairro é obrigatório!">
+        </app-input-control-errors>
+      </div>
 
-    <div class="col-sm-12">
-      <label for="street" class="control-label">Rua:</label>
-      <input type="text" id="street" class="form-control" name="street" [(ngModel)]="user.street" required
-        #street="ngModel" readonly>
+      <div class="col-md-4" [ngClass]="applyErrorStyle(city)">
+        <label for="city" class="control-label">Cidade</label>
+        <input type="text" class="form-control" id="city" name="city" ngModel required #city="ngModel" readonly>
 
-      <app-input-control-errors [showError]="validAndTouched(street)" errorMessage="Número é obrigatório">
-      </app-input-control-errors>
-    </div>
-  </div>
+        <app-input-control-errors [showError]="validAndTouched(city)" errorMessage="Cidade é obrigatória!">
+        </app-input-control-errors>
+      </div>
 
-  <div class="form-group">
-    <div class="col-md-5" [ngClass]="applyErrorStyle(neigborhood)">
-      <label for="neigborhood" class="control-label">Bairro</label>
-      <input type="text" class="form-control" id="neigborhood" name="neigborhood" ngModel required
-        #neigborhood="ngModel" readonly>
+      <div class="col-md-3" [ngClass]="applyErrorStyle(state)">
+        <label for="state" class="control-label">Estado</label>
+        <input type="text" class="form-control" id="state" name="state" ngModel required #state="ngModel" readonly>
 
-      <app-input-control-errors [showError]="validAndTouched(neigborhood)" errorMessage="Bairro é obrigatório!">
-      </app-input-control-errors>
-    </div>
-
-    <div class="col-md-4" [ngClass]="applyErrorStyle(city)">
-      <label for="city" class="control-label">Cidade</label>
-      <input type="text" class="form-control" id="city" name="city" ngModel required #city="ngModel" readonly>
-
-      <app-input-control-errors [showError]="validAndTouched(city)" errorMessage="Cidade é obrigatória!">
-      </app-input-control-errors>
-    </div>
-
-    <div class="col-md-3" [ngClass]="applyErrorStyle(state)">
-      <label for="state" class="control-label">Estado</label>
-      <input type="text" class="form-control" id="state" name="state" ngModel required #state="ngModel" readonly>
-
-      <app-input-control-errors [showError]="validAndTouched(state)" errorMessage="Estado é obrigatório!!">
-      </app-input-control-errors>
+        <app-input-control-errors [showError]="validAndTouched(state)" errorMessage="Estado é obrigatório!!">
+        </app-input-control-errors>
+      </div>
     </div>
   </div>
 
