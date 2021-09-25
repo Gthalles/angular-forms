@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-template-driven',
@@ -16,7 +17,7 @@ export class TemplateDrivenComponent implements OnInit {
     console.log(f.form.value);
   }
 
-  constructor() { }
+  constructor(private httpClient: HttpClient) { }
 
   ngOnInit(): void {
   }
@@ -29,6 +30,22 @@ export class TemplateDrivenComponent implements OnInit {
     return {
       'has-error': this.validAndTouched(campo),
       'has-feedback': this.validAndTouched(campo)
+    }
+  }
+
+  validateCep(cep: string) {
+    console.log(cep);
+    cep = cep.replace(/\D/g, '');
+
+    if(cep != '') {
+      var validaCep = /^[0-9]{8}$/;
+
+      if(validaCep.test(cep)) {
+        this.httpClient.get("https://viacep.com.br/ws/" + cep + "/json")
+        .subscribe(data => {
+          console.log(data);
+        })
+      }
     }
   }
 

@@ -30,7 +30,7 @@
     <div class="form-group">
       <div class="col-md-3" [ngClass]="applyErrorStyle(cep)">
         <label for="cep" class="control-label">CEP</label>
-        <input type="text" class="form-control" id="cep" name="cep" ngModel required #cep="ngModel">
+        <input type="text" class="form-control" id="cep" name="cep" ngModel (blur)="validateCep(this.cep.value)" required #cep="ngModel">
 
         <app-input-control-errors [showError]="validAndTouched(cep)" errorMessage="CEP é obrigatório">
         </app-input-control-errors>
