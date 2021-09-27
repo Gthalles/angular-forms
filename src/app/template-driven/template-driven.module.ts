@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { TemplateDrivenComponent } from './template-driven.component';
 import { FormDebugComponent } from '../form-debug/form-debug.component';
 import { InputControlErrorsComponent } from '../input-control-errors/input-control-errors.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -15,7 +16,8 @@ import { InputControlErrorsComponent } from '../input-control-errors/input-contr
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ]
 })
 export class TemplateDrivenModule { }
