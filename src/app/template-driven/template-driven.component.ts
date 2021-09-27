@@ -17,7 +17,11 @@ export class TemplateDrivenComponent implements OnInit {
     console.log(f.form.value);
   }
 
+<<<<<<< HEAD
   constructor(private http: HttpClient) { }
+=======
+  constructor(private httpClient: HttpClient) { }
+>>>>>>> 69c4d011a20155e2f16590c4990827bcd60c5e9c
 
   ngOnInit(): void {
   }
