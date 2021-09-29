@@ -15,6 +15,12 @@ export class TemplateDrivenComponent implements OnInit {
     console.log(f.value);
     console.log(this.user);
     console.log(f.form.value);
+
+    this.http.post('https://httpbin.org/post', JSON.stringify(f.value))
+    .subscribe((data: any) =>  {
+      console.log(data);
+      return data;
+    });
   }
 
   constructor(private http: HttpClient) { }
@@ -51,4 +57,5 @@ export class TemplateDrivenComponent implements OnInit {
       }
     }
   }
+  
 }
