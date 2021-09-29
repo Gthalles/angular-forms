@@ -39,23 +39,68 @@ export class TemplateDrivenComponent implements OnInit {
     }
   }
 
-  consultaCEP(cep: string) {
+  searchCEP(cep: string, form: any) {
 
     cep.replace(/\D/g, '');
 
     if (cep != "") {
       //Expressão regular para validar o CEP.
-      var validacep = /^[0-9]{8}$/;
+      var validateCep = /^[0-9]{8}$/;
 
-      if (validacep.test(cep)) {
+      if (validateCep.test(cep)) {
         this.http.get('https://viacep.com.br/ws/' + cep + '/json/')
           .subscribe((data: any) => {
-            console.log(data);
-            return data;
+              console.log(data);
+              this.clearAddress(form);
+              this.populateForm(data, form);
+              return data;
           }
         );
       }
     }
   }
-  
+
+  populateForm(data: any, form: any) {
+    /*
+    form.setValue({
+      name: form.value.name,
+      email: form.value.email,
+      address: {
+        cep: data.cep, //postal code
+        number: '',
+        complement: data.complemento,
+        street: data.logradouro,
+        neighborhood: data.bairro ,
+        city: data.localidade,
+        state: data.uf
+      }
+    })
+    console.log(form.value);
+  */
+    form.form.patchValue({
+      address: {
+        cep: data.cep, //postal code
+        complement: data.complemento,
+        street: data.logradouro,
+        neighborhood: data.bairro,
+        city: data.localidade,
+        state: data.uf
+      }
+    })
+  }
+
+  clearAddress(form: any) {
+    form.form.patchValue({
+      address: {
+        cep: null,
+        number: null,
+        complement: null,
+        street: null,
+        neighborhood: null,
+        city: null,
+        state: null
+      }
+    })
+  }
+
 }
