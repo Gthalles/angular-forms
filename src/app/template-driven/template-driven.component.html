@@ -30,7 +30,8 @@
     <div class="form-group">
       <div class="col-md-3" [ngClass]="applyErrorStyle(cep)">
         <label for="cep" class="control-label">CEP</label>
-        <input type="text" class="form-control" id="cep" name="cep" ngModel required #cep="ngModel">
+        <input type="text" class="form-control" id="cep" name="cep" (input)="searchCEP(this.cep.value, f)" ngModel
+          required #cep="ngModel">
 
         <app-input-control-errors [showError]="validAndTouched(cep)" errorMessage="CEP é obrigatório">
         </app-input-control-errors>
@@ -38,7 +39,7 @@
 
       <div class="col-md-6" [ngClass]="applyErrorStyle(number)">
         <label for="number" class="control-label">Número</label>
-        <input type="text" class="form-control" id="number" name="number" ngModel required #number="ngModel" readonly>
+        <input type="text" class="form-control" id="number" name="number" ngModel required #number="ngModel">
 
         <app-input-control-errors [showError]="validAndTouched(number)" errorMessage="Número é obrigatório!">
         </app-input-control-errors>
@@ -54,8 +55,7 @@
 
       <div class="col-sm-12">
         <label for="street" class="control-label">Rua:</label>
-        <input type="text" id="street" class="form-control" name="street" [(ngModel)]="user.street" required
-          #street="ngModel" readonly>
+        <input type="text" id="street" class="form-control" name="street" ngModel required #street="ngModel" readonly>
 
         <app-input-control-errors [showError]="validAndTouched(street)" errorMessage="Número é obrigatório">
         </app-input-control-errors>
@@ -65,11 +65,9 @@
     <div class="form-group">
       <div class="col-md-5" [ngClass]="applyErrorStyle(neighborhood
 )">
-        <label for="neighborhood
-" class="control-label">Bairro</label>
-        <input type="text" class="form-control" id="neighborhood
-" name="neighborhood
-" ngModel required #neighborhood="ngModel" readonly>
+        <label for="neighborhood" class="control-label">Bairro</label>
+        <input type="text" class="form-control" id="neighborhood" name="neighborhood" ngModel required
+          #neighborhood="ngModel" readonly>
 
         <app-input-control-errors [showError]="validAndTouched(neighborhood
 )" errorMessage="Bairro é obrigatório!">
