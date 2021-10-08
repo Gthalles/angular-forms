@@ -8,7 +8,7 @@ import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 })
 export class DataDrivenComponent implements OnInit {
 
-  constructor(private form: FormGroup, private formBuilder: FormBuilder) {}
+  constructor(public form: FormGroup, private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     /*
