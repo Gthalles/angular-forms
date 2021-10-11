@@ -8,10 +8,15 @@ import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
   styleUrls: ['./data-driven.component.css']
 })
 export class DataDrivenComponent implements OnInit {
+
   form: FormGroup = this.formBuilder.group({
     name: [null],
     email: [null]
   });
+
+  reset() {
+    this.form.reset();
+  }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -31,6 +36,12 @@ export class DataDrivenComponent implements OnInit {
     console.log(this.form);
 
     this.http.post('https://httpbin.org/post', JSON.stringify(this.form.value))
-    .subscribe((data: any) => console.log(data));
+    .subscribe((data: any) => {
+      console.log(data);
+      this.reset();
+    },
+    (error: any) => {
+      alert("Erro");
+    })
   }
 }
