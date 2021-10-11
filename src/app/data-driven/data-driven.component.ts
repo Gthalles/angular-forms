@@ -7,8 +7,12 @@ import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
   styleUrls: ['./data-driven.component.css']
 })
 export class DataDrivenComponent implements OnInit {
+  form: FormGroup = this.formBuilder.group({
+    name: [null],
+    email: [null]
+  });
 
-  constructor(public form: FormGroup, private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     /*
@@ -17,11 +21,5 @@ export class DataDrivenComponent implements OnInit {
       email: new FormControl(null),
     });
     */
-
-    this.form = this.formBuilder.group({
-      name: [null],
-      email: [null]
-    });
   }
-
 }

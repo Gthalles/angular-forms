@@ -1,6 +1,6 @@
 <form class="form-horizontal" [formGroup]="form">
 
-  <app-form-debug [formGroup]="form"></app-form-debug>
+  <app-form-debug [form]="form"></app-form-debug>
 
   <div class="form-group">
     <div class="col-sm-12">
@@ -13,8 +13,7 @@
     <div class="col-sm-12">
       <label for="email" class="control-label">Email</label>
       <input type="text" id="email" class="form-control" placeholder="nome@email.com" formControlName="email" required
-        pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
-        >
+        pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?">
 
     </div>
   </div>
