@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-data-driven',
@@ -10,8 +10,8 @@ import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 export class DataDrivenComponent implements OnInit {
 
   form: FormGroup = this.formBuilder.group({
-    name: [null],
-    email: [null]
+    name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
+    email: [null, Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]
   });
 
   reset() {
