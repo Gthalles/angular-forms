@@ -10,24 +10,24 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 export class DataDrivenComponent implements OnInit {
   form!: FormGroup;
 
-  validAndTouched(inputField: any){
-    let result: boolean;
-    result = true;
-    if(this.form.get(inputField)?.valid && this.form.get(inputField)?.touched){
-      result = false;
-    }
-    console.log("result = " + result);
-    console.log("field valid: " + this.form.get(inputField)?.valid);
-    return result;
+  validAndTouched(inputField: any) {
+    let field: any = this.form.get(inputField);
+
+    if (field?.invalid && field.untouched) // Retorna falso mesmo com o campo inválido pois o mesmo ainda não foi focado
+      return false;
+    else if (field?.invalid && field.touched) // Única possibilidade para mostrar erros: campo inválido e tocado (focado em algum momento)
+      return true;
+    else
+      return false;
   }
 
-  verifyEmail(): any{
-    let campoEmail = this.form.get('email');
+  verifyEmail() {
+    let emailField = this.form?.get('email');
 
-
-    if(campoEmail?.errors){
-      return campoEmail?.errors.required && campoEmail?.touched;
+    if (emailField?.errors) {
+      return emailField?.errors.required && emailField?.touched;
     }
+    return false;
   }
 
   applyErrorStyle(inputField: any) {
@@ -38,37 +38,37 @@ export class DataDrivenComponent implements OnInit {
   }
 
   reset() {
-    this.form.reset();
+    this.form?.reset();
   }
 
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     /*
-    this.form = new FormGroup({
+    this.form? = new FormGroup({
       name: new FormControl(null),
       email: new FormControl(null),
     });
     */
     this.form = this.formBuilder.group({
       name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
-      email: [null, Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]
+      email: [null, [Validators.required, Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]]
     });
   }
 
   onSubmit(form: FormGroup) {
     console.log(this.form);
 
-    this.http.post('https://httpbin.org/post', JSON.stringify(this.form.value))
-    .subscribe((data: any) => {
-      console.log(data);
-      this.reset();
-    },
-    (error: any) => {
-      alert("Erro");
-    })
+    this.http.post('https://httpbin.org/post', JSON.stringify(this.form?.value))
+      .subscribe((data: any) => {
+        console.log(data);
+        this.reset();
+      },
+        (error: any) => {
+          alert("Erro");
+        })
   }
 }

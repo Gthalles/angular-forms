@@ -1,5 +1,4 @@
 <form class="form-horizontal" [formGroup]="form" (ngSubmit)="onSubmit(form)">
-
   <app-form-debug [form]="form"></app-form-debug>
 
   <div class="form-group" [ngClass]="applyErrorStyle('name')">
@@ -14,7 +13,8 @@
     <div class="col-sm-12">
       <label for="email" class="control-label">Email</label>
       <input type="text" id="email" class="form-control" placeholder="nome@email.com" formControlName="email">
-      <app-input-control-errors [showError]="validAndTouched('email')" errorMessage="Email é obrigatório!"></app-input-control-errors>
+      <app-input-control-errors [showError]="validAndTouched('email')" errorMessage="Email é obrigatório!">
+      </app-input-control-errors>
       <app-input-control-errors [showError]="verifyEmail()" errorMessage="Email inválido!"></app-input-control-errors>
     </div>
   </div>
