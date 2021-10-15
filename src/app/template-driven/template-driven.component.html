@@ -1,8 +1,9 @@
 <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="form-horizontal">
-
+  <!-- DEBUG COMPONENT -->
   <app-form-debug [form]="f"></app-form-debug>
 
   <div class="form-group" [ngClass]="applyErrorStyle(name)">
+    <!-- NAME FIELD -->
     <div class="col-sm-12">
       <label for="name" class="control-label">Nome:</label>
       <input type="text" id="name" class="form-control" placeholder="Nome" name="name" [(ngModel)]="user.name" required
@@ -14,6 +15,7 @@
   </div>
 
   <div class="form-group" [ngClass]="applyErrorStyle(email)">
+    <!-- EMAIL FIELD -->
     <div class="col-sm-12">
       <label for="email" class="control-label">Email</label>
       <input type="text" id="email" class="form-control" placeholder="nome@email.com" name="email"
@@ -28,6 +30,7 @@
 
   <div ngModelGroup="address">
     <div class="form-group">
+      <!-- CEP FIELD -->
       <div class="col-md-3" [ngClass]="applyErrorStyle(cep)">
         <label for="cep" class="control-label">CEP</label>
         <input type="text" class="form-control" id="cep" name="cep" (input)="searchCEP(this.cep.value, f)" ngModel
@@ -37,6 +40,7 @@
         </app-input-control-errors>
       </div>
 
+      <!-- NUMBER FIELD -->
       <div class="col-md-6" [ngClass]="applyErrorStyle(number)">
         <label for="number" class="control-label">Número</label>
         <input type="text" class="form-control" id="number" name="number" ngModel required #number="ngModel">
@@ -45,6 +49,7 @@
         </app-input-control-errors>
       </div>
 
+      <!-- COMPLEMENT FIELD -->
       <div class="col-md-3">
         <label for="complement" class="control-label">Complemento</label>
         <input type="text" class="form-control" id="complement" name="complement" ngModel #complement="ngModel">
@@ -52,7 +57,7 @@
     </div>
 
     <div class="form-group" [ngClass]="applyErrorStyle(street)">
-
+      <!-- STREET FIELD -->
       <div class="col-sm-12">
         <label for="street" class="control-label">Rua:</label>
         <input type="text" id="street" class="form-control" name="street" ngModel required #street="ngModel" readonly>
@@ -63,17 +68,17 @@
     </div>
 
     <div class="form-group">
-      <div class="col-md-5" [ngClass]="applyErrorStyle(neighborhood
-)">
+      <!-- NEIGHBORHOOD FIELD -->
+      <div class="col-md-5" [ngClass]="applyErrorStyle(neighborhood)">
         <label for="neighborhood" class="control-label">Bairro</label>
         <input type="text" class="form-control" id="neighborhood" name="neighborhood" ngModel required
           #neighborhood="ngModel" readonly>
 
-        <app-input-control-errors [showError]="validAndTouched(neighborhood
-)" errorMessage="Bairro é obrigatório!">
+        <app-input-control-errors [showError]="validAndTouched(neighborhood)" errorMessage="Bairro é obrigatório!">
         </app-input-control-errors>
       </div>
 
+      <!-- CITY FIELD -->
       <div class="col-md-4" [ngClass]="applyErrorStyle(city)">
         <label for="city" class="control-label">Cidade</label>
         <input type="text" class="form-control" id="city" name="city" ngModel required #city="ngModel" readonly>
@@ -82,6 +87,7 @@
         </app-input-control-errors>
       </div>
 
+      <!-- STATE FIELD -->
       <div class="col-md-3" [ngClass]="applyErrorStyle(state)">
         <label for="state" class="control-label">Estado</label>
         <input type="text" class="form-control" id="state" name="state" ngModel required #state="ngModel" readonly>
