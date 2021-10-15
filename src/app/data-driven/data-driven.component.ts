@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators, PatternValidator } from '@angular/forms';
 
 @Component({
   selector: 'app-data-driven',
@@ -55,7 +55,14 @@ export class DataDrivenComponent implements OnInit {
     */
     this.form = this.formBuilder.group({
       name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
-      email: [null, [Validators.required, Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]]
+      email: [null, [Validators.required, Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]],
+      cep: [null, [Validators.required]],
+      number: [null, [Validators.required]],
+      complement: [null],
+      street: [null, [Validators.required]],
+      neighborhood: [null, Validators.required],
+      city: [null, [Validators.required]],
+      state: [null, [Validators.required]]
     });
   }
 
