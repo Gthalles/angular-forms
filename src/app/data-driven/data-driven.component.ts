@@ -74,10 +74,58 @@ export class DataDrivenComponent implements OnInit {
     this.http.post('https://httpbin.org/post', JSON.stringify(this.form?.value))
       .subscribe((data: any) => {
         console.log(data);
-        this.reset();
       },
         (error: any) => {
           alert("Erro");
         })
+  }
+
+  // FUNÇÕES REFERENTES AO ENDEREÇO/CEP
+  searchCEP() {
+    let cep: string = this.form.get('address.cep')?.value;
+    cep.replace(/\D/g, '');
+
+    if (cep != "") {
+      //Expressão regular para validar o CEP.
+      var validateCep = /^[0-9]{8}$/;
+
+      if (validateCep.test(cep)) {
+        this.http.get('https://viacep.com.br/ws/' + cep + '/json/')
+          .subscribe((data: any) => {
+              console.log(data);
+              this.clearAddress();
+              this.populateForm(data);
+              return data;
+          }
+        );
+      }
+    }
+  }
+
+  populateForm(data: any) {
+    this.form.patchValue({
+      address: {
+        cep: data.cep, //postal code
+        complement: data.complemento,
+        street: data.logradouro,
+        neighborhood: data.bairro,
+        city: data.localidade,
+        state: data.uf
+      }
+    })
+  }
+
+  clearAddress() {
+    this.form.patchValue({
+      address: {
+        cep: null,
+        number: null,
+        complement: null,
+        street: null,
+        neighborhood: null,
+        city: null,
+        state: null
+      }
+    })
   }
 }

@@ -28,7 +28,7 @@
       <!-- CEP FIELD -->
       <div class="col-md-3" [ngClass]="applyErrorStyle('address.cep')">
         <label for="cep" class="control-label">CEP</label>
-        <input type="text" class="form-control" id="cep" formControlName="cep">
+        <input type="text" class="form-control" id="cep" formControlName="cep" (blur)="searchCEP()">
 
         <app-input-control-errors [showError]="validAndTouched('address.cep')" errorMessage="CEP é obrigatório">
         </app-input-control-errors>
