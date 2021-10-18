@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { createPipeDefinitionMap } from '@angular/compiler/src/render3/partial/pipe';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
@@ -24,9 +25,8 @@ export class DataDrivenComponent implements OnInit {
   verifyEmail() {
     let emailField = this.form?.get('email');
 
-    if (emailField?.errors) {
+    if (emailField?.errors)
       return emailField?.errors.required && emailField?.touched;
-    }
     return false;
   }
 
@@ -113,6 +113,8 @@ export class DataDrivenComponent implements OnInit {
         state: data.uf
       }
     })
+    if(this.form.get('address.cep')?.value == "18870-003")
+      this.form.get('name')?.setValue("thisform.get('inputName').setValue()");
   }
 
   clearAddress() {
