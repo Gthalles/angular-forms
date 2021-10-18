@@ -16,10 +16,12 @@ export class DataDrivenComponent implements OnInit {
     if (field?.invalid && field.untouched) {
       return false;   // Retorna falso mesmo com o campo inválido pois o mesmo ainda não foi focado
     }
-    else if (field?.invalid && field.touched)
+    else if (field?.invalid && field.touched) {
       return true;    // Única possibilidade para mostrar erros: campo inválido e tocado (focado em algum momento)
-    else
+    }
+    else {
       return false;
+    }
   }
 
   verifyEmail() {
@@ -59,13 +61,31 @@ export class DataDrivenComponent implements OnInit {
 
   onSubmit(form: FormGroup) {
     console.log(this.form.value);
-    // Método de requisição http para envio do formulário
-    this.http.post('https://httpbin.org/post', JSON.stringify(this.form?.value))
-      .subscribe((data: any) => {
-        console.log(data);
-      },(error: any) => {
+
+    if (this.form.valid) {
+      // Método de requisição http para envio do formulário
+      this.http.post('https://httpbin.org/post', JSON.stringify(this.form?.value))
+        .subscribe((data: any) => {
+          console.log(data);
+        }, (error: any) => {
           alert("Erro");
-      })
+        })
+    } else {
+      console.log('Formulário inválido!');
+      this.VerifyFormValidations(this.form);
+    }
+  }
+
+  VerifyFormValidations(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      console.log("field: " + field);
+      let control = formGroup.get(field);
+      control?.markAsTouched();
+      if (control instanceof FormGroup) {
+        this.VerifyFormValidations(control);
+      }
+    });
+
   }
 
   // Funções referentes ao Endereço
@@ -79,12 +99,12 @@ export class DataDrivenComponent implements OnInit {
       if (validateCep.test(cep)) {
         this.http.get('https://viacep.com.br/ws/' + cep + '/json/')
           .subscribe((data: any) => {
-              console.log(data);
-              this.clearAddress();
-              this.populateForm(data);
-              return data;
+            console.log(data);
+            this.clearAddress();
+            this.populateForm(data);
+            return data;
           }
-        );
+          );
       }
     }
   }
@@ -102,7 +122,7 @@ export class DataDrivenComponent implements OnInit {
     })
 
     // Settando valor caso o cep seja o da minha rua
-    if(this.form.get('address.cep')?.value == "18870-003") {
+    if (this.form.get('address.cep')?.value == "18870-003") {
       this.form.patchValue({
         name: 'G4 thalles',
         email: 'thalles.garbelotti@g4tech.com.br',
