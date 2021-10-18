@@ -7,7 +7,7 @@
     <div class="col-sm-12">
       <label for="name" class="control-label">Nome:</label>
       <input type="text" id="name" class="form-control" placeholder="Nome" formControlName="name">
-      <app-input-control-errors [showError]="validAndTouched('name')" errorMessage="Nome é obrigatório!"></app-input-control-errors>
+      <app-input-control-errors [showError]="validInput('name')" errorMessage="Nome é obrigatório!"></app-input-control-errors>
     </div>
   </div>
 
@@ -16,13 +16,13 @@
     <div class="col-sm-12">
       <label for="email" class="control-label">Email</label>
       <input type="text" id="email" class="form-control" placeholder="nome@email.com" formControlName="email">
-      <app-input-control-errors [showError]="validAndTouched('email')" errorMessage="Email é obrigatório!">
+      <app-input-control-errors [showError]="validInput('email')" errorMessage="Email é obrigatório!">
       </app-input-control-errors>
       <app-input-control-errors [showError]="verifyEmail()" errorMessage="Email inválido!"></app-input-control-errors>
     </div>
   </div>
 
-  <!-- ADDRESS FIELD GROUP-->
+  <!-- ADDRESS GROUP FIELD -->
   <div formGroupName="address">
     <div class="form-group">
       <!-- CEP FIELD -->
@@ -30,7 +30,7 @@
         <label for="cep" class="control-label">CEP</label>
         <input type="text" class="form-control" id="cep" formControlName="cep" (blur)="searchCEP()">
 
-        <app-input-control-errors [showError]="validAndTouched('address.cep')" errorMessage="CEP é obrigatório">
+        <app-input-control-errors [showError]="validInput('address.cep')" errorMessage="CEP é obrigatório">
         </app-input-control-errors>
       </div>
 
@@ -39,7 +39,7 @@
         <label for="number" class="control-label">Número</label>
         <input type="text" class="form-control" id="number" formControlName="number">
 
-        <app-input-control-errors [showError]="validAndTouched('address.number')" errorMessage="Número é obrigatório!">
+        <app-input-control-errors [showError]="validInput('address.number')" errorMessage="Número é obrigatório!">
         </app-input-control-errors>
       </div>
 
@@ -56,7 +56,7 @@
         <label for="street" class="control-label">Rua:</label>
         <input type="text" class="form-control" id="street" formControlName="street">
 
-        <app-input-control-errors [showError]="validAndTouched('address.street')" errorMessage="Número é obrigatório">
+        <app-input-control-errors [showError]="validInput('address.street')" errorMessage="Número é obrigatório">
         </app-input-control-errors>
       </div>
     </div>
@@ -67,7 +67,7 @@
         <label for="neighborhood" class="control-label">Bairro</label>
         <input type="text" class="form-control" id="neighborhood" formControlName="neighborhood">
 
-        <app-input-control-errors [showError]="validAndTouched('address.neighborhood')" errorMessage="Bairro é obrigatório!">
+        <app-input-control-errors [showError]="validInput('address.neighborhood')" errorMessage="Bairro é obrigatório!">
         </app-input-control-errors>
       </div>
 
@@ -76,7 +76,7 @@
         <label for="city" class="control-label">Cidade</label>
         <input type="text" class="form-control" id="city" formControlName="city">
 
-        <app-input-control-errors [showError]="validAndTouched('address.city')" errorMessage="Cidade é obrigatória!">
+        <app-input-control-errors [showError]="validInput('address.city')" errorMessage="Cidade é obrigatória!">
         </app-input-control-errors>
       </div>
 
@@ -85,12 +85,12 @@
         <label for="state" class="control-label">Estado</label>
         <input type="text" class="form-control" id="state" formControlName="state">
 
-        <app-input-control-errors [showError]="validAndTouched('address.state')" errorMessage="Estado é obrigatório!!">
+        <app-input-control-errors [showError]="validInput('address.state')" errorMessage="Estado é obrigatório!!">
         </app-input-control-errors>
       </div>
     </div>
   </div>
 
   <button type="submit" class="btn btn-primary">Enviar</button>
-  <button type="reset" (click)="reset()" class="btn">Cancelar</button>
+  <button type="reset" (click)="this.form.reset()" class="btn">Cancelar</button>
 </form>
