@@ -1,6 +1,8 @@
+import { UF } from 'src/assets/data/UF.model';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { DropdownService } from '../shared/services/dropdown.service';
 
 @Component({
   selector: 'app-data-driven',
@@ -9,6 +11,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class DataDrivenComponent implements OnInit {
   form!: FormGroup;
+  federativeUnit!: UF[];
 
   validInput(inputField: any) {
     let field: any = this.form.get(inputField);
@@ -41,9 +44,20 @@ export class DataDrivenComponent implements OnInit {
     }
   }
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private http: HttpClient,
+    private dropDownService: DropdownService
+  ) { }
 
   ngOnInit(): void {
+    
+    this.dropDownService.getUFs()
+      .subscribe((data: any) => {
+        return this.federativeUnit = data;
+      })
+    
+
     this.form = this.formBuilder.group({
       name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
       email: [null, [Validators.required, Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]],

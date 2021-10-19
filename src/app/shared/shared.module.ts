@@ -2,6 +2,7 @@ import { InputControlErrorsComponent } from './input-control-errors/input-contro
 import { FormDebugComponent } from './form-debug/form-debug.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DropdownService } from './services/dropdown.service';
 
 
 
@@ -16,6 +17,9 @@ import { CommonModule } from '@angular/common';
   exports: [
     FormDebugComponent,
     InputControlErrorsComponent
+  ],
+  providers: [
+    DropdownService
   ]
 })
 export class SharedModule { }
