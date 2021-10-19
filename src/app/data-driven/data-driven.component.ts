@@ -33,7 +33,6 @@ export class DataDrivenComponent implements OnInit {
     if (emailField?.errors) {
       return emailField?.errors.required && emailField?.touched;
     }
-
     return false;
   }
 
@@ -47,16 +46,14 @@ export class DataDrivenComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private dropDownService: DropdownService
+    private dropdownService: DropdownService
   ) { }
 
   ngOnInit(): void {
-    
-    this.dropDownService.getUFs()
-      .subscribe((data: any) => {
+    // Serviço de requisição http ao json de estados brasileiros
+    this.dropdownService.getUFs().subscribe((data: any) => { 
         return this.federativeUnit = data;
-      })
-    
+    });
 
     this.form = this.formBuilder.group({
       name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
@@ -86,17 +83,17 @@ export class DataDrivenComponent implements OnInit {
         })
     } else {
       console.log('Formulário inválido!');
-      this.VerifyFormValidations(this.form);
+      this.verifyFormValidations(this.form);
     }
   }
 
-  VerifyFormValidations(formGroup: FormGroup) {
+  verifyFormValidations(formGroup: FormGroup) {
     Object.keys(formGroup.controls).forEach(field => {
       console.log("field: " + field);
       let control = formGroup.get(field);
       control?.markAsTouched();
       if (control instanceof FormGroup) {
-        this.VerifyFormValidations(control);
+        this.verifyFormValidations(control);
       }
     });
 
@@ -126,7 +123,7 @@ export class DataDrivenComponent implements OnInit {
   populateForm(data: any) {
     this.form.patchValue({
       address: {
-        cep: data.cep,    //postal code
+        cep: data.cep,
         complement: data.complemento,
         street: data.logradouro,
         neighborhood: data.bairro,

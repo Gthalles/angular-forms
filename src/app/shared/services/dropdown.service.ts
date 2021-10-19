@@ -10,8 +10,8 @@ export class DropdownService {
   constructor(private http: HttpClient) { }
 
   getUFs() {
-    return this.http.get('assets/data/uf.json').pipe(
-      map((response: any) => console.log(response))
-    )
+    return this.http.get('assets/data/uf.json').pipe(map((response: any) => {
+      console.log(response);
+    }));
   }
 }
