@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DropdownService } from '../shared/services/dropdown.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-data-driven',
@@ -11,7 +12,7 @@ import { DropdownService } from '../shared/services/dropdown.service';
 })
 export class DataDrivenComponent implements OnInit {
   form!: FormGroup;
-  federativeUnit!: UF[];
+  states!: UF[];
 
   validInput(inputField: any) {
     let field: any = this.form.get(inputField);
@@ -51,8 +52,13 @@ export class DataDrivenComponent implements OnInit {
 
   ngOnInit(): void {
     // Serviço de requisição http ao json de estados brasileiros
-    this.dropdownService.getUFs().subscribe((data: any) => { 
-        return this.federativeUnit = data;
+    this.dropdownService.getUFs().pipe(
+      map(response => {
+        console.log(response);
+        return response;
+      })
+    ).subscribe(data => { 
+        return this.states = data;
     });
 
     this.form = this.formBuilder.group({
