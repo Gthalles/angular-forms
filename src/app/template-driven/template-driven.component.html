@@ -33,7 +33,7 @@
       <!-- CEP FIELD -->
       <div class="col-md-3" [ngClass]="applyErrorStyle(cep)">
         <label for="cep" class="control-label">CEP</label>
-        <input type="text" class="form-control" id="cep" name="cep" (input)="searchCEP(this.cep.value, f)" ngModel
+        <input type="text" class="form-control" id="cep" name="cep" (blur)="searchCEP(this.cep.value, f)" ngModel
           required #cep="ngModel">
 
         <app-input-control-errors [showError]="validAndTouched(cep)" errorMessage="CEP é obrigatório">

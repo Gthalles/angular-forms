@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { CepConsultationService } from '../shared/services/cep-consultation.service';
 
 @Component({
   selector: 'app-template-driven',
@@ -23,7 +24,7 @@ export class TemplateDrivenComponent implements OnInit {
     });
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private cepConsultationService: CepConsultationService) { }
 
   ngOnInit(): void {
   }
@@ -40,23 +41,13 @@ export class TemplateDrivenComponent implements OnInit {
   }
 
   searchCEP(cep: string, form: any) {
+    cep = cep.replace(/\D/g, '');
 
-    cep.replace(/\D/g, '');
-
-    if (cep != "") {
-      //Expressão regular para validar o CEP.
-      var validateCep = /^[0-9]{8}$/;
-
-      if (validateCep.test(cep)) {
-        this.http.get('https://viacep.com.br/ws/' + cep + '/json/')
-          .subscribe((data: any) => {
-              console.log(data);
-              this.clearAddress(form);
-              this.populateForm(data, form);
-              return data;
-          }
-        );
-      }
+    if(cep != null && cep !== '') {
+      this.cepConsultationService.searchCEP(cep)?.subscribe((data) => {
+        console.log(data);
+        return this.populateForm(data, form);
+      })
     }
   }
 
