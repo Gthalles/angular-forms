@@ -12,9 +12,59 @@ import { CepConsultationService } from '../shared/services/cep-consultation.serv
   styleUrls: ['./data-driven.component.css']
 })
 export class DataDrivenComponent implements OnInit {
+  // Atributos
   form!: FormGroup;
   states!: UF[];
 
+  constructor(
+    private formBuilder: FormBuilder,
+    private http: HttpClient,
+    private dropdownService: DropdownService,
+    private cepConsultationService: CepConsultationService
+  ) { }
+
+  ngOnInit(): void {
+    this.form = this.formBuilder.group({
+      name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
+      email: [null, [Validators.required, Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]],
+      address: this.formBuilder.group({
+        cep: [null, [Validators.required]],
+        number: [null, [Validators.required]],
+        complement: [null],
+        street: [null, [Validators.required]],
+        neighborhood: [null, Validators.required],
+        city: [null, [Validators.required]],
+        state: [null, [Validators.required]]
+      })
+    });
+
+    // Utilização do serviço de requisição http ao json de estados brasileiros
+    this.dropdownService.getUFs().pipe(
+      map(response => {
+        console.log(response);
+        return response;
+      })
+    ).subscribe((data: any) => { 
+        return this.states = data;
+    });
+  }
+
+  onSubmit(form: FormGroup): void {
+    if (this.form.valid) {
+      // Método de requisição http para envio do formulário
+      this.http.post('https://httpbin.org/post', JSON.stringify(this.form?.value))
+      .subscribe((data: any) => {
+        console.log(data);
+      }, (error: any) => {
+        alert('Erro');
+      });
+    } else {
+      console.log('Formulário inválido!');
+      this.verifyFormValidations(this.form);
+    }
+  }
+
+  // Funções referentes a validação dos campos
   validInput(inputField: any) {
     let field: any = this.form.get(inputField);
 
@@ -35,6 +85,7 @@ export class DataDrivenComponent implements OnInit {
     if (emailField?.errors) {
       return emailField?.errors.required && emailField?.touched;
     }
+    
     return false;
   }
 
@@ -45,69 +96,18 @@ export class DataDrivenComponent implements OnInit {
     }
   }
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private http: HttpClient,
-    private dropdownService: DropdownService,
-    private cepConsultationService: CepConsultationService
-  ) { }
-
-  ngOnInit(): void {
-    // Serviço de requisição http ao json de estados brasileiros
-    this.dropdownService.getUFs().pipe(
-      map(response => {
-        console.log(response);
-        return response;
-      })
-    ).subscribe(data => { 
-        return this.states = data;
-    });
-
-    this.form = this.formBuilder.group({
-      name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
-      email: [null, [Validators.required, Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]],
-      address: this.formBuilder.group({
-        cep: [null, [Validators.required]],
-        number: [null, [Validators.required]],
-        complement: [null],
-        street: [null, [Validators.required]],
-        neighborhood: [null, Validators.required],
-        city: [null, [Validators.required]],
-        state: [null, [Validators.required]]
-      })
-    });
-  }
-
-  onSubmit(form: FormGroup) {
-    console.log(this.form.value);
-
-    if (this.form.valid) {
-      // Método de requisição http para envio do formulário
-      this.http.post('https://httpbin.org/post', JSON.stringify(this.form?.value))
-        .subscribe((data: any) => {
-          console.log(data);
-        }, (error: any) => {
-          alert("Erro");
-        })
-    } else {
-      console.log('Formulário inválido!');
-      this.verifyFormValidations(this.form);
-    }
-  }
-
   verifyFormValidations(formGroup: FormGroup) {
     Object.keys(formGroup.controls).forEach(field => {
-      console.log("field: " + field);
+      console.log('field: ' + field);
       let control = formGroup.get(field);
       control?.markAsTouched();
       if (control instanceof FormGroup) {
         this.verifyFormValidations(control);
       }
     });
-
   }
 
-  // Funções referentes ao Endereço
+  // Funções referentes ao Endereço(CEP)
   searchCEP() {
     let cep: string = this.form.get('address.cep')?.value;
 
@@ -132,7 +132,7 @@ export class DataDrivenComponent implements OnInit {
     })
 
     // Settando valor caso o cep seja o da minha rua
-    if (this.form.get('address.cep')?.value == "18870-003") {
+    if (this.form.get('address.cep')?.value == '18870-003') {
       this.form.patchValue({
         name: 'G4 thalles',
         email: 'thalles.garbelotti@g4tech.com.br',
@@ -141,12 +141,6 @@ export class DataDrivenComponent implements OnInit {
         }
       })
     }
-    /*
-    // Settando valores do data-driven utilizando setValue()
-      this.form.get('name')?.setValue("G4 Thalles");
-      this.form.get('address.number')?.setValue("184");
-      this.form.get('email')?.setValue("");
-    */
   }
 
   clearAddress() {

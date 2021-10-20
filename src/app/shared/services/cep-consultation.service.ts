@@ -13,7 +13,7 @@ export class CepConsultationService {
     // Verifica se o CEP tem somente dígitos
     cep.replace(/\D/g, '');
 
-    if (cep != "") {
+    if (cep != '') {
       // Expressão regular para validar o CEP
       var validateCep = /^[0-9]{8}$/;
       if (validateCep.test(cep)) {
