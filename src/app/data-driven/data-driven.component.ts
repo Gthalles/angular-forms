@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DropdownService } from '../shared/services/dropdown.service';
-import { map } from 'rxjs/operators';
 import { CepConsultationService } from '../shared/services/cep-consultation.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-data-driven',
@@ -14,8 +14,9 @@ import { CepConsultationService } from '../shared/services/cep-consultation.serv
 export class DataDrivenComponent implements OnInit {
   // Atributos
   form!: FormGroup;
-  states!: UF[];
+  states!: Observable<UF[]>;
 
+  // Métodos
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
@@ -39,14 +40,8 @@ export class DataDrivenComponent implements OnInit {
     });
 
     // Utilização do serviço de requisição http ao json de estados brasileiros
-    this.dropdownService.getUFs().pipe(
-      map(response => {
-        console.log(response);
-        return response;
-      })
-    ).subscribe((data: any) => { 
-        return this.states = data;
-    });
+    this.states = this.dropdownService.getUFs();
+    
   }
 
   onSubmit(form: FormGroup): void {

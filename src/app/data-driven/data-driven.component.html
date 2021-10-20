@@ -84,7 +84,7 @@
       <div class="col-md-3" [ngClass]="applyErrorStyle('address.state')">
         <label for="state" class="control-label">Estado</label>
         <select class="form-control" id="state" formControlName="state">
-          <option *ngFor="let state of states" [value]="state.initials">{{state.initials}}</option>
+          <option *ngFor="let state of states | async" [value]="state.initials">{{state.initials}}</option>
         </select>
 
         <app-input-control-errors [showError]="validInput('address.state')" errorMessage="Estado é obrigatório!!">
