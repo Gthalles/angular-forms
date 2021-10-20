@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DropdownService } from '../shared/services/dropdown.service';
 import { map } from 'rxjs/operators';
+import { CepConsultationService } from '../shared/services/cep-consultation.service';
 
 @Component({
   selector: 'app-data-driven',
@@ -47,7 +48,8 @@ export class DataDrivenComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private dropdownService: DropdownService
+    private dropdownService: DropdownService,
+    private cepConsultationService: CepConsultationService
   ) { }
 
   ngOnInit(): void {
@@ -108,22 +110,13 @@ export class DataDrivenComponent implements OnInit {
   // Funções referentes ao Endereço
   searchCEP() {
     let cep: string = this.form.get('address.cep')?.value;
-    cep.replace(/\D/g, '');
 
-    if (cep != "") {
-      var validateCep = /^[0-9]{8}$/;   // Expressão regular para validar o CEP
-
-      if (validateCep.test(cep)) {
-        this.http.get('https://viacep.com.br/ws/' + cep + '/json/')
-          .subscribe((data: any) => {
-            console.log(data);
-            this.clearAddress();
-            this.populateForm(data);
-            return data;
-          }
-          );
+      if(cep != null && cep !== '') {
+        this.cepConsultationService.searchCEP(cep)?.subscribe((data) => {
+          console.log(data);
+          this.populateForm(data);
+        })
       }
-    }
   }
 
   populateForm(data: any) {
