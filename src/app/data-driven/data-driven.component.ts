@@ -151,4 +151,42 @@ export class DataDrivenComponent implements OnInit {
       }
     })
   }
+
+  // Definindo método para settar meus dados
+  setMyAddress(): void {
+    this.form.patchValue({
+      name: 'Thalles Garbelotti',
+      profession: 'Junior full stack developer',
+      email: 'thallesgarbelotti@gmail.com',
+      address: {
+        number: '001'
+      }
+    });
+  }
+
+  // Definindo método para settar profissão
+  setProfissionAsJuniorBackendDev(): void {
+    const role_1 = {id: '1', role: 'Junior backend developer', wage: '1.800'}
+    this.form.get('profession')?.setValue(role_1);
+  }
+
+  setProfissionAsSeniorBackendDev(): void {
+    const role_2 = {id: '3', role: 'Senior backend developer', wage: '10.000'}
+    this.form.get('profession')?.setValue(role_2);
+  }
+
+  setProfissionAsJuniorFrontendDev(): void {
+    const role_3 = {id: '5', role: 'Junior frontend developer', wage: '1.800'}
+    this.form.get('profession')?.setValue(role_3);
+  }
+
+  setProfissionAsSeniorFrontendDev(): void {
+    const role_4 = {id: '6', role: 'Senior frontend developer', wage: '10.000'}
+    this.form.get('profession')?.setValue(role_4);
+  }
+
+  // Método para comparar objetos
+  compareProfessions(object1: any, object2: any) {
+    return object1 && object2 ? (object1.role === object2.role) : object1 === object2;
+  }
 }
