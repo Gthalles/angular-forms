@@ -27,4 +27,18 @@ export class DropdownService {
       {id: '9', role: 'Senior full stack developer', wage: '10.000'},
     ];
   }
+
+  getTechs(): any {
+    return [
+      {id: '1', name: 'Java Script'},
+      {id: '2', name: 'Java'},
+      {id: '3', name: 'PHP'},
+      {id: '4', name: 'React'},
+      {id: '5', name: 'Angular'},
+      {id: '6', name: 'MySQL'},
+      {id: '7', name: 'PostgreSQL'},
+      {id: '8', name: 'MongoDB'},
+      {id: '9', name: 'Ionic'}
+    ]
+  }
 }
