@@ -15,6 +15,8 @@ export class DataDrivenComponent implements OnInit {
   // Atributos
   form!: FormGroup;
   states!: Observable<UF[]>;
+  professions!: any[];
+  techs!: any[];
 
   // Métodos
   constructor(
@@ -28,6 +30,8 @@ export class DataDrivenComponent implements OnInit {
     this.form = this.formBuilder.group({
       name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
       email: [null, [Validators.required, Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]],
+      profession: [null, [Validators.required]],
+      tech: [null, [Validators.required]],
       address: this.formBuilder.group({
         cep: [null, [Validators.required]],
         number: [null, [Validators.required]],
@@ -39,7 +43,9 @@ export class DataDrivenComponent implements OnInit {
       })
     });
 
-    // Utilização do serviço de requisição http ao json de estados brasileiros
+    // Populando campos do tipo select (dropdown/combobox)
+    this.professions = this.dropdownService.getProfession();
+    this.techs = this.dropdownService.getTechs();
     this.states = this.dropdownService.getUFs();
     
   }
@@ -150,6 +156,10 @@ export class DataDrivenComponent implements OnInit {
         state: null
       }
     })
+  }
+
+  reset() {
+    this.form.reset();
   }
 
   // Definindo método para settar meus dados
