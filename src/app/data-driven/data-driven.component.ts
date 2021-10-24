@@ -163,25 +163,24 @@ export class DataDrivenComponent implements OnInit {
   }
 
   // Definindo método para settar profissão
-  setProfissionAsJuniorFullStackDev(): void {
-    const role_1 = {id: '2', role: 'Backend developer', wage: '3.000'};
-    this.form.get('profession')?.setValue(role_1);
-  }
-  
   setProfissionAsJuniorBackendDev(): void {
-    this.form.get('profession')?.setValue('Junior backend developer');
+    const role_1 = {id: '1', role: 'Junior backend developer', wage: '1.800'}
+    this.form.get('profession')?.setValue(role_1);
   }
 
   setProfissionAsSeniorBackendDev(): void {
-    this.form.get('profession')?.setValue('Senior backend developer');
+    const role_2 = {id: '3', role: 'Senior backend developer', wage: '10.000'}
+    this.form.get('profession')?.setValue(role_2);
   }
 
   setProfissionAsJuniorFrontendDev(): void {
-    this.form.get('profession')?.setValue('Junior frontend developer');
+    const role_3 = {id: '5', role: 'Junior frontend developer', wage: '1.800'}
+    this.form.get('profession')?.setValue(role_3);
   }
 
   setProfissionAsSeniorFrontendDev(): void {
-    this.form.get('profession')?.setValue('Senior frontend developer');
+    const role_4 = {id: '6', role: 'Senior frontend developer', wage: '10.000'}
+    this.form.get('profession')?.setValue(role_4);
   }
 
   // Método para comparar objetos
