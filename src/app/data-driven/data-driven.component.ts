@@ -15,7 +15,6 @@ export class DataDrivenComponent implements OnInit {
   // Atributos
   form!: FormGroup;
   states!: Observable<UF[]>;
-  professions!: any[];
 
   // Métodos
   constructor(
@@ -29,7 +28,6 @@ export class DataDrivenComponent implements OnInit {
     this.form = this.formBuilder.group({
       name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
       email: [null, [Validators.required, Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]],
-      profession: [null, [Validators.required]],
       address: this.formBuilder.group({
         cep: [null, [Validators.required]],
         number: [null, [Validators.required]],
@@ -41,22 +39,20 @@ export class DataDrivenComponent implements OnInit {
       })
     });
 
-    // Populando select de cargo
-    this.professions = this.dropdownService.getProfession();
-
-    // Populando select de estados utilizando serviço de requisição http ao json de estados brasileiros
+    // Utilização do serviço de requisição http ao json de estados brasileiros
     this.states = this.dropdownService.getUFs();
+    
   }
 
   onSubmit(form: FormGroup): void {
     if (this.form.valid) {
       // Método de requisição http para envio do formulário
       this.http.post('https://httpbin.org/post', JSON.stringify(this.form?.value))
-        .subscribe((data: any) => {
-          console.log(data);
-        }, (error: any) => {
-          alert('Erro');
-        });
+      .subscribe((data: any) => {
+        console.log(data);
+      }, (error: any) => {
+        alert('Erro');
+      });
     } else {
       console.log('Formulário inválido!');
       this.verifyFormValidations(this.form);
@@ -84,7 +80,7 @@ export class DataDrivenComponent implements OnInit {
     if (emailField?.errors) {
       return emailField?.errors.required && emailField?.touched;
     }
-
+    
     return false;
   }
 
@@ -110,12 +106,12 @@ export class DataDrivenComponent implements OnInit {
   searchCEP() {
     let cep: string = this.form.get('address.cep')?.value;
 
-    if (cep != null && cep !== '') {
-      this.cepConsultationService.searchCEP(cep)?.subscribe((data) => {
-        console.log(data);
-        this.populateForm(data);
-      })
-    }
+      if(cep != null && cep !== '') {
+        this.cepConsultationService.searchCEP(cep)?.subscribe((data) => {
+          console.log(data);
+          this.populateForm(data);
+        })
+      }
   }
 
   populateForm(data: any) {
@@ -132,7 +128,13 @@ export class DataDrivenComponent implements OnInit {
 
     // Settando valor caso o cep seja o da minha rua
     if (this.form.get('address.cep')?.value == '18870-003') {
-      this.setMyAddress();
+      this.form.patchValue({
+        name: 'G4 thalles',
+        email: 'thalles.garbelotti@g4tech.com.br',
+        address: {
+          number: '184'
+        }
+      })
     }
   }
 
@@ -148,44 +150,5 @@ export class DataDrivenComponent implements OnInit {
         state: null
       }
     })
-  }
-
-  // Definindo método para settar meus dados
-  setMyAddress(): void {
-    this.form.patchValue({
-      name: 'Thalles Garbelotti',
-      profession: 'Junior full stack developer',
-      email: 'thallesgarbelotti@gmail.com',
-      address: {
-        number: '001'
-      }
-    });
-  }
-
-  // Definindo método para settar profissão
-  setProfissionAsJuniorFullStackDev(): void {
-    const role_1 = {id: '2', role: 'Backend developer', wage: '3.000'};
-    this.form.get('profession')?.setValue(role_1);
-  }
-  
-  setProfissionAsJuniorBackendDev(): void {
-    this.form.get('profession')?.setValue('Junior backend developer');
-  }
-
-  setProfissionAsSeniorBackendDev(): void {
-    this.form.get('profession')?.setValue('Senior backend developer');
-  }
-
-  setProfissionAsJuniorFrontendDev(): void {
-    this.form.get('profession')?.setValue('Junior frontend developer');
-  }
-
-  setProfissionAsSeniorFrontendDev(): void {
-    this.form.get('profession')?.setValue('Senior frontend developer');
-  }
-
-  // Método para comparar objetos
-  compareProfessions(object1: any, object2: any) {
-    return object1 && object2 ? (object1.role === object2.role) : object1 === object2;
   }
 }
