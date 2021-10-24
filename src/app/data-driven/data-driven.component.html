@@ -31,7 +31,7 @@
         <option *ngFor="let tech of techs" [ngValue]="tech">{{tech.name}}</option>
       </select>
 
-      <app-input-control-errors [showError]="validInput('tech)" errorMessage="Ao mínimo uma tecnologia é obrigatória!!">
+      <app-input-control-errors [showError]="validInput('tech')" errorMessage="Ao mínimo uma tecnologia é obrigatória!!">
       </app-input-control-errors>
     </div>
     
