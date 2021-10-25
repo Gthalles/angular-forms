@@ -127,6 +127,18 @@
         </app-input-control-errors>
       </div>
     </div>
+
+    <div class="form-group">
+      <div class="col-md-3" [ngClass]="applyErrorStyle('terms')">
+        <div class="checkbox">
+          <label for="terms" class="checkbox-inline">
+            <input type="checkbox" (click)="setTerms()" formControlName="terms"> Aceito os termos
+          </label>
+          <app-input-control-errors [showError]="!form.get('terms')?.valid" errorMessage="Por favor, aceite os termos!">
+          </app-input-control-errors>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="set-buttons">
