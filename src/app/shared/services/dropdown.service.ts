@@ -10,7 +10,7 @@ export class DropdownService {
 
   constructor(private http: HttpClient) { }
 
-  getUFs():Observable<UF[]> {
+  getUFs(): Observable<UF[]> {
     return this.http.get<UF[]>('assets/data/uf.json');
   }
 
@@ -39,6 +39,13 @@ export class DropdownService {
       {id: '7', name: 'PostgreSQL'},
       {id: '8', name: 'MongoDB'},
       {id: '9', name: 'Ionic'}
-    ]
+    ];
+  }
+
+  getNewsletter(): any {
+    return [
+      {value: 'Y', desc: 'Sim'},
+      {value: 'N', desc: 'Não'}
+    ];
   }
 }
