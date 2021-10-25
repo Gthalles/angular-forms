@@ -2,9 +2,9 @@
   <!-- DEBUG COMPONENT -->
   <app-form-debug [form]="form"></app-form-debug>
 
-  <div class="form-group" [ngClass]="applyErrorStyle('name')">
+  <div class="form-group" >
     <!-- NAME FIELD -->
-    <div class="col-sm-12">
+    <div class="col-sm-12" [ngClass]="applyErrorStyle('name')">
       <label for="name" class="control-label">Nome:</label>
       <input type="text" id="name" class="form-control" placeholder="Nome" formControlName="name">
       <app-input-control-errors [showError]="validInput('name')" errorMessage="Nome é obrigatório!"></app-input-control-errors>
@@ -25,9 +25,10 @@
     <div class="col-sm-2">
       <label for="newsletter" class="control-label">Newsletter</label>
       <div id="newsletter" class="row">
-        <div class="col-sm-2" *ngFor="let item of newsletterOp">
+        <div *ngFor="let item of newsletterOp">
           <label class="radio-inline">
-            <input id="newsletter-item" type="radio" [value]="item.desc" formControlName="newsletter">{{item.desc}}
+            <input id="newsletter-item" type="radio" [value]="item.desc" formControlName="newsletter">
+            {{item.desc}}
           </label>
         </div>
       </div>
@@ -129,12 +130,14 @@
     </div>
 
     <div class="form-group">
+      <!-- TERMS FIELD -->
       <div class="col-md-3" [ngClass]="applyErrorStyle('terms')">
         <div class="checkbox">
           <label for="terms" class="checkbox-inline">
-            <input type="checkbox" (click)="setTerms()" formControlName="terms"> Aceito os termos
+            <input id="terms" type="checkbox" formControlName="terms" (click)="setTerms()"> Aceito os termos
           </label>
-          <app-input-control-errors [showError]="!form.get('terms')?.valid" errorMessage="Por favor, aceite os termos!">
+
+          <app-input-control-errors [showError]="!form?.get('terms')?.valid" errorMessage="Por favor, aceite os termos!">
           </app-input-control-errors>
         </div>
       </div>

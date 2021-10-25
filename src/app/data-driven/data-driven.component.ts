@@ -43,7 +43,7 @@ export class DataDrivenComponent implements OnInit {
         city: [null, [Validators.required]],
         state: [null, [Validators.required]]
       }),
-      terms: [null, [Validators.required, Validators.requiredTrue]],
+      terms: [false, [Validators.required, Validators.requiredTrue]],
     });
 
     // Populando campos do tipo select (dropdown/combobox)
@@ -91,6 +91,13 @@ export class DataDrivenComponent implements OnInit {
     }
     
     return false;
+  }
+
+  // Função para settar checkbox de termos
+  setTerms() {
+    let terms: any = this.form.get('terms');
+
+    return terms.value == true ? terms.setValue(false) : terms.setValue(true);
   }
 
   applyErrorStyle(inputField: any) {
@@ -175,13 +182,6 @@ export class DataDrivenComponent implements OnInit {
         number: '001'
       }
     });
-  }
-
-  // Função para settar checkbox de termos
-  setTerms() {
-    let terms: any = this.form.get('terms');
-
-    terms.value == true ? terms.setValue(false) : terms.setValue(true);
   }
 
   // Definindo método para settar profissão
