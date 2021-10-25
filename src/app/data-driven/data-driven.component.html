@@ -11,14 +11,26 @@
     </div>
   </div>
 
-  <div class="form-group" [ngClass]="applyErrorStyle('email')">
+  <div class="form-group">
     <!-- EMAIL FIELD -->
-    <div class="col-sm-12" [ngClass]="applyErrorStyle('email')">
+    <div class="col-sm-8" [ngClass]="applyErrorStyle('email')">
       <label for="email" class="control-label">Email</label>
       <input type="text" id="email" class="form-control" placeholder="nome@email.com" formControlName="email">
       <app-input-control-errors [showError]="validInput('email')" errorMessage="Email é obrigatório!">
       </app-input-control-errors>
       <app-input-control-errors [showError]="verifyEmail()" errorMessage="Email inválido!"></app-input-control-errors>
+    </div>
+
+    <!-- NEWSLETTER FIELD -->
+    <div class="col-sm-2">
+      <label for="newsletter" class="control-label">Newsletter</label>
+      <div id="newsletter" class="row">
+        <div class="col-sm-2" *ngFor="let item of newsletterOp">
+          <label class="radio-inline">
+            <input id="newsletter-item" type="radio" [value]="item.desc" formControlName="newsletter">{{item.desc}}
+          </label>
+        </div>
+      </div>
     </div>
   </div>
 

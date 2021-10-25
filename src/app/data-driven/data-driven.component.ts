@@ -17,6 +17,7 @@ export class DataDrivenComponent implements OnInit {
   states!: Observable<UF[]>;
   professions!: any[];
   techs!: any[];
+  newsletterOp!: any[];
 
   // Métodos
   constructor(
@@ -30,6 +31,7 @@ export class DataDrivenComponent implements OnInit {
     this.form = this.formBuilder.group({
       name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
       email: [null, [Validators.required, Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]],
+      newsletter: ['Sim'],
       profession: [null, [Validators.required]],
       tech: [null, [Validators.required]],
       address: this.formBuilder.group({
@@ -47,7 +49,7 @@ export class DataDrivenComponent implements OnInit {
     this.professions = this.dropdownService.getProfession();
     this.techs = this.dropdownService.getTechs();
     this.states = this.dropdownService.getUFs();
-    
+    this.newsletterOp = this.dropdownService.getNewsletter();    
   }
 
   onSubmit(form: FormGroup): void {
