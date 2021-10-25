@@ -17,3 +17,7 @@
 .submit-buttons button {
     margin: 0 10px;
 }
+
+.checkbox input#terms {
+    accent-color: #337ab7;
+}
