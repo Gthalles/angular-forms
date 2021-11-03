@@ -1,7 +1,7 @@
 import { UF } from 'src/assets/data/UF.model';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
 import { DropdownService } from '../shared/services/dropdown.service';
 import { CepConsultationService } from '../shared/services/cep-consultation.service';
 import { Observable } from 'rxjs';
@@ -18,6 +18,7 @@ export class DataDrivenComponent implements OnInit {
   professions!: any[];
   techs!: any[];
   newsletterOp!: any[];
+  frameworks: any[] = ['Angular', 'Laravel', 'Springboot', 'Vue'];
 
   // Métodos
   constructor(
@@ -34,6 +35,8 @@ export class DataDrivenComponent implements OnInit {
       newsletter: ['Sim'],
       profession: [null, [Validators.required]],
       tech: [null, [Validators.required]],
+      frameworks: this.buildFrameworks(),
+      terms: [false, [Validators.required, Validators.requiredTrue]],
       address: this.formBuilder.group({
         cep: [null, [Validators.required]],
         number: [null, [Validators.required]],
@@ -43,7 +46,6 @@ export class DataDrivenComponent implements OnInit {
         city: [null, [Validators.required]],
         state: [null, [Validators.required]]
       }),
-      terms: [false, [Validators.required, Validators.requiredTrue]],
     });
 
     // Populando campos do tipo select (dropdown/combobox)
@@ -53,10 +55,26 @@ export class DataDrivenComponent implements OnInit {
     this.newsletterOp = this.dropdownService.getNewsletter();    
   }
 
+  // Método referente ao campo para frameworks
+  buildFrameworks() {
+    let values = this.frameworks?.map(() => new FormControl(false));
+
+    return this.formBuilder?.array(values) as FormArray;
+  }
+
   onSubmit(form: FormGroup): void {
+
+    let valueSubmit = Object.assign({}, this.form?.value);
+
+    valueSubmit = Object.assign(valueSubmit, {
+      frameworks: valueSubmit.frameworks
+        .map((value: any, index: number) => value ? this.frameworks[index] : null)
+        .filter((value: any) => value != null) 
+    });
+
     if (this.form.valid) {
       // Método de requisição http para envio do formulário
-      this.http.post('https://httpbin.org/post', JSON.stringify(this.form?.value))
+      this.http.post('https://httpbin.org/post', JSON.stringify(valueSubmit))
       .subscribe((data: any) => {
         console.log(data);
       }, (error: any) => {
