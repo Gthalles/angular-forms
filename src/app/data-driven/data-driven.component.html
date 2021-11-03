@@ -1,4 +1,5 @@
 <form class="form-horizontal" [formGroup]="form" (ngSubmit)="onSubmit(form)">
+
   <!-- DEBUG COMPONENT -->
   <app-form-debug [form]="form"></app-form-debug>
 
@@ -28,7 +29,7 @@
         <div *ngFor="let item of newsletterOp">
           <label class="radio-inline">
             <input id="newsletter-item" type="radio" [value]="item.desc" formControlName="newsletter">
-            {{item.desc}}
+            {{ item.desc }}
           </label>
         </div>
       </div>
@@ -40,7 +41,7 @@
     <div class="col-md-6" [ngClass]="applyErrorStyle('tech')">
       <label for="tech" class="control-label">Tecnologias</label>
       <select multiple class="form-control" id="tech" formControlName="tech">
-        <option *ngFor="let tech of techs" [ngValue]="tech">{{tech.name}}</option>
+        <option *ngFor="let tech of techs" [ngValue]="tech">{{ tech.name }}</option>
       </select>
 
       <app-input-control-errors [showError]="validInput('tech')" errorMessage="Ao mínimo uma tecnologia é obrigatória!!">
@@ -51,11 +52,38 @@
     <div class="col-md-6" [ngClass]="applyErrorStyle('profession')">
       <label for="profession" class="control-label">Profissão / Cargo</label>
       <select class="form-control" id="profession" formControlName="profession" [compareWith]="compareProfessions">
-        <option *ngFor="let profession of professions" [ngValue]="profession">{{profession.role}}</option>
+        <option *ngFor="let profession of professions" [ngValue]="profession">{{ profession.role }}</option>
       </select>
       
       <app-input-control-errors [showError]="validInput('profession')" errorMessage="Profissão é obrigatório!!">
       </app-input-control-errors>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <!-- FRAMEWORKS FIELD -->
+    <div class="col-md-6" [ngClass]="applyErrorStyle('frameworks')">
+      <label for="frameworks">Frameworks</label>
+      <div id="frameworks" class="row">
+        <div class="checkbox" class="col-sm-6" formArrayName="frameworks" *ngFor="let item of frameworks; let i = index;">
+          <label class="checkbox-inline">
+            <input type="checkbox" id="framework" [formControlName]="i"> {{ frameworks[i] }}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- TERMS FIELD -->
+    <div class="col-md-3" [ngClass]="applyErrorStyle('terms')">
+      <label class="control-label">Termos de compromisso</label>
+      <div class="checkbox">
+        <label for="terms" title="Termos de compromisso" class="checkbox-inline">
+          <input id="terms" type="checkbox" formControlName="terms" (click)="setTerms()"> Li e aceito os termos
+        </label>
+
+        <app-input-control-errors [showError]="!form?.get('terms')?.valid" errorMessage="Por favor, aceite os termos!">
+        </app-input-control-errors>
+      </div>
     </div>
   </div>
 
@@ -121,7 +149,7 @@
       <div class="col-md-3" [ngClass]="applyErrorStyle('address.state')">
         <label for="state" class="control-label">Estado</label>
         <select class="form-control" id="state" formControlName="state">
-          <option *ngFor="let state of states | async" [value]="state.initials">{{state.initials}}</option>
+          <option *ngFor="let state of states | async" [value]="state.initials">{{ state.initials }}</option>
         </select>
 
         <app-input-control-errors [showError]="validInput('address.state')" errorMessage="Estado é obrigatório!!">
@@ -129,19 +157,6 @@
       </div>
     </div>
 
-    <div class="form-group">
-      <!-- TERMS FIELD -->
-      <div class="col-md-3" [ngClass]="applyErrorStyle('terms')">
-        <div class="checkbox">
-          <label for="terms" class="checkbox-inline">
-            <input id="terms" type="checkbox" formControlName="terms" (click)="setTerms()"> Aceito os termos
-          </label>
-
-          <app-input-control-errors [showError]="!form?.get('terms')?.valid" errorMessage="Por favor, aceite os termos!">
-          </app-input-control-errors>
-        </div>
-      </div>
-    </div>
   </div>
 
   <div class="set-buttons">
