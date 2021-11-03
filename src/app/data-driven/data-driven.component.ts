@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
 import { DropdownService } from '../shared/services/dropdown.service';
 import { CepConsultationService } from '../shared/services/cep-consultation.service';
+import { FormValidationService } from '../shared/services/form-validation.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -18,14 +19,15 @@ export class DataDrivenComponent implements OnInit {
   professions!: any[];
   techs!: any[];
   newsletterOp!: any[];
-  frameworks: any[] = ['Angular', 'Laravel', 'Springboot', 'Vue'];
+  frameworks: any[] = ['Angular', 'Laravel', 'Springboot', 'Ionic'];
 
   // Métodos
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
     private dropdownService: DropdownService,
-    private cepConsultationService: CepConsultationService
+    private cepConsultationService: CepConsultationService,
+    private formValidationService: FormValidationService
   ) { }
 
   ngOnInit(): void {
@@ -59,7 +61,7 @@ export class DataDrivenComponent implements OnInit {
   buildFrameworks() {
     let values = this.frameworks?.map(() => new FormControl(false));
 
-    return this.formBuilder?.array(values) as FormArray;
+    return this.formBuilder.array(values, this.formValidationService?.requiredMinCheckbox(1));
   }
 
   onSubmit(form: FormGroup): void {

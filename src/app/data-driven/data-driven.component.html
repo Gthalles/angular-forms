@@ -63,13 +63,16 @@
   <div class="form-group">
     <!-- FRAMEWORKS FIELD -->
     <div class="col-md-6" [ngClass]="applyErrorStyle('frameworks')">
-      <label for="frameworks">Frameworks</label>
+      <label for="frameworks" class="control-label">Frameworks</label>
       <div id="frameworks" class="row">
         <div class="checkbox" class="col-sm-6" formArrayName="frameworks" *ngFor="let item of frameworks; let i = index;">
           <label class="checkbox-inline">
             <input type="checkbox" id="framework" [formControlName]="i"> {{ frameworks[i] }}
           </label>
         </div>
+
+        <app-input-control-errors [showError]="!form?.get('frameworks')?.valid" errorMessage="Selecione ao menos um framework!">
+        </app-input-control-errors>
       </div>
     </div>
 
@@ -80,10 +83,9 @@
         <label for="terms" title="Termos de compromisso" class="checkbox-inline">
           <input id="terms" type="checkbox" formControlName="terms" (click)="setTerms()"> Li e aceito os termos
         </label>
-
-        <app-input-control-errors [showError]="!form?.get('terms')?.valid" errorMessage="Por favor, aceite os termos!">
-        </app-input-control-errors>
       </div>
+      <app-input-control-errors [showError]="!form?.get('terms')?.valid" errorMessage="Por favor, aceite os termos!">
+      </app-input-control-errors>
     </div>
   </div>
 
