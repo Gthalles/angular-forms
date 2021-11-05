@@ -34,13 +34,13 @@ export class DataDrivenComponent implements OnInit {
     this.form = this.formBuilder.group({
       name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
       email: [null, [Validators.required, Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]],
-      newsletter: ['Sim'],
+      newsletter: [null],
       profession: [null, [Validators.required]],
       tech: [null, [Validators.required]],
       frameworks: this.buildFrameworks(),
       terms: [false, [Validators.required, Validators.requiredTrue]],
       address: this.formBuilder.group({
-        cep: [null, [Validators.required]],
+        cep: [null, [Validators.required, this.formValidationService.cepValidator]],
         number: [null, [Validators.required]],
         complement: [null],
         street: [null, [Validators.required]],
@@ -88,14 +88,22 @@ export class DataDrivenComponent implements OnInit {
     }
   }
 
-  // Funções referentes a validação dos campos
-  validInput(inputField: any) {
+  // Funções referentes a validação e verificações dos campos
+  validInput(inputField: any): boolean {
+    if(this.form.get(inputField)?.hasError('invalidCep')){
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  verifyInput(inputField: any): boolean {
     let field: any = this.form.get(inputField);
 
     if (field?.invalid && field.untouched) {
       return false;   // Retorna falso mesmo com o campo inválido pois o mesmo ainda não foi focado
-    }
-    else if (field?.invalid && field.touched) {
+    } else if (field?.invalid && field.touched) {
       return true;    // Única possibilidade para mostrar erros: campo inválido e tocado (focado em algum momento)
     }
     else {
@@ -122,8 +130,8 @@ export class DataDrivenComponent implements OnInit {
 
   applyErrorStyle(inputField: any) {
     return {
-      'has-error': this.validInput(inputField),
-      'has-feedback': this.validInput(inputField)
+      'has-error': this.verifyInput(inputField),
+      'has-feedback': this.verifyInput(inputField)
     }
   }
 
@@ -189,6 +197,7 @@ export class DataDrivenComponent implements OnInit {
   }
 
   reset() {
+    console.log(this.form);
     this.form.reset();
   }
 
