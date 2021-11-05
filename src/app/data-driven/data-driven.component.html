@@ -14,25 +14,23 @@
 
   <div class="form-group">
     <!-- EMAIL FIELD -->
-    <div class="col-sm-8" [ngClass]="applyErrorStyle('email')">
+    <div class="col-sm-12" [ngClass]="applyErrorStyle('email')">
       <label for="email" class="control-label">Email</label>
       <input type="text" id="email" class="form-control" placeholder="nome@email.com" formControlName="email">
+
       <app-input-control-errors [showError]="verifyInput('email')" errorMessage="Email é obrigatório!">
       </app-input-control-errors>
-      <app-input-control-errors [showError]="verifyEmail()" errorMessage="Email inválido!"></app-input-control-errors>
+      <app-input-control-errors [showError]="verifyEmail()" errorMessage="Email inválido!">
+      </app-input-control-errors>
     </div>
 
-    <!-- NEWSLETTER FIELD -->
-    <div class="col-sm-2">
-      <label for="newsletter" class="control-label">Newsletter</label>
-      <div id="newsletter" class="row">
-        <div *ngFor="let item of newsletterOp">
-          <label class="radio-inline">
-            <input id="newsletter-item" type="radio" [value]="item.desc" formControlName="newsletter">
-            {{ item.desc }}
-          </label>
-        </div>
-      </div>
+    <!-- EMAIL COMFIRMATION FIELD -->
+    <div class="col-sm-12" [ngClass]="applyErrorStyle('confirmEmail')">
+      <label for="confirmEmail" class="control-label">Confirmação de email</label>
+      <input type="text" id="confirmEmail" class="form-control" placeholder="nome@email.com" formControlName="confirmEmail">
+      
+      <app-input-control-errors [showError]="verifyDoubleField('confirmEmail')" errorMessage="Emails não são iguais!">
+      </app-input-control-errors>
     </div>
   </div>
 
@@ -58,11 +56,9 @@
       <app-input-control-errors [showError]="verifyInput('profession')" errorMessage="Profissão é obrigatório!!">
       </app-input-control-errors>
     </div>
-  </div>
 
-  <div class="form-group">
     <!-- FRAMEWORKS FIELD -->
-    <div class="col-md-6" [ngClass]="applyErrorStyle('frameworks')">
+    <div class="col-md-12" [ngClass]="applyErrorStyle('frameworks')">
       <label for="frameworks" class="control-label">Frameworks</label>
       <div id="frameworks" class="row">
         <div class="checkbox" class="col-sm-6" formArrayName="frameworks" *ngFor="let item of frameworks; let i = index;">
@@ -74,18 +70,6 @@
         <app-input-control-errors [showError]="!form?.get('frameworks')?.valid" errorMessage="Selecione ao menos um framework!">
         </app-input-control-errors>
       </div>
-    </div>
-
-    <!-- TERMS FIELD -->
-    <div class="col-md-3" [ngClass]="applyErrorStyle('terms')">
-      <label class="control-label">Termos de compromisso</label>
-      <div class="checkbox">
-        <label for="terms" title="Termos de compromisso" class="checkbox-inline">
-          <input id="terms" type="checkbox" formControlName="terms" (click)="setTerms()"> Li e aceito os termos
-        </label>
-      </div>
-      <app-input-control-errors [showError]="!form?.get('terms')?.valid" errorMessage="Por favor, aceite os termos!">
-      </app-input-control-errors>
     </div>
   </div>
 
@@ -161,7 +145,33 @@
         </app-input-control-errors>
       </div>
     </div>
+  </div>
 
+  <div class="form-group">
+    <!-- NEWSLETTER FIELD -->
+    <div class="col-sm-3">
+      <label for="newsletter" class="control-label">Newsletter</label>
+      <div id="newsletter" class="row">
+        <div *ngFor="let item of newsletterOp">
+          <label class="radio-inline">
+            <input id="newsletter-item" type="radio" [value]="item.desc" formControlName="newsletter">
+            {{ item.desc }}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- TERMS FIELD -->
+    <div class="col-md-3" [ngClass]="applyErrorStyle('terms')">
+      <label class="control-label">Termos de compromisso</label>
+      <div class="checkbox">
+        <label for="terms" title="Termos de compromisso" class="checkbox-inline">
+          <input id="terms" type="checkbox" formControlName="terms" (click)="setTerms()"> Li e aceito os termos
+        </label>
+      </div>
+      <app-input-control-errors [showError]="!form?.get('terms')?.valid" errorMessage="Por favor, aceite os termos!">
+      </app-input-control-errors>
+    </div>
   </div>
 
   <div class="set-buttons">

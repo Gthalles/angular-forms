@@ -34,11 +34,10 @@ export class DataDrivenComponent implements OnInit {
     this.form = this.formBuilder.group({
       name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
       email: [null, [Validators.required, Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]],
-      newsletter: [null],
-      profession: [null, [Validators.required]],
+      confirmEmail: [null, [Validators.required, Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"), this.formValidationService.equalsTo('email')]],
       tech: [null, [Validators.required]],
+      profession: [null, [Validators.required]],
       frameworks: this.buildFrameworks(),
-      terms: [false, [Validators.required, Validators.requiredTrue]],
       address: this.formBuilder.group({
         cep: [null, [Validators.required, this.formValidationService.cepValidator]],
         number: [null, [Validators.required]],
@@ -48,6 +47,8 @@ export class DataDrivenComponent implements OnInit {
         city: [null, [Validators.required]],
         state: [null, [Validators.required]]
       }),
+      newsletter: [null],
+      terms: [false, [Validators.required, Validators.requiredTrue]]
     });
 
     // Populando campos do tipo select (dropdown/combobox)
@@ -119,6 +120,10 @@ export class DataDrivenComponent implements OnInit {
     }
     
     return false;
+  }
+
+  verifyDoubleField(inputField: string): boolean {
+    return this.form.get(inputField)?.hasError('equalsTo') ? true : false;
   }
 
   // Função para settar checkbox de termos

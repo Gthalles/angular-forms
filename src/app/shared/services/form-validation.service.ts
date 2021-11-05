@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormArray, FormControl } from '@angular/forms';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +28,32 @@ export class FormValidationService {
     }
 
     return null;
+  }
+
+  equalsTo(otherField: string): any {
+    const validator: any = (formControl: FormControl) => {
+      if(otherField == null) {
+        throw new Error('É necessário informar um campo.');
+      }
+
+      if(!formControl.root || !(<FormGroup>formControl.root).controls) {
+        return null;
+      }
+
+      const field: any = (<FormGroup>formControl.root).get(otherField);
+
+      if(!field) {
+        throw new Error('É necessário informar um campo válido.');
+      }
+
+      if(field.value !== formControl.value) {
+        return { equalsTo: otherField};
+      }
+
+      return null;
+    };
+
+    return validator;
   }
 
 }
