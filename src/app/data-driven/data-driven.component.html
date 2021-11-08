@@ -22,6 +22,11 @@
       </app-input-control-errors>
       <app-input-control-errors [showError]="verifyEmail()" errorMessage="Email inválido!">
       </app-input-control-errors>
+      <app-input-control-errors [showError]="!verifyEmailError('email')" errorMessage="Email disponivel!">
+      </app-input-control-errors>
+      <app-input-control-errors [showError]="verifyEmailError('email')" errorMessage="Email indisponível!">
+      </app-input-control-errors>
+
     </div>
 
     <!-- EMAIL COMFIRMATION FIELD -->
@@ -30,6 +35,8 @@
       <input type="text" id="confirmEmail" class="form-control" placeholder="nome@email.com" formControlName="confirmEmail">
       
       <app-input-control-errors [showError]="verifyDoubleField('confirmEmail')" errorMessage="Emails não são iguais!">
+      </app-input-control-errors>
+      <app-input-control-errors [showError]="verifyInput('confirmEmail')" errorMessage="Email é obrigatório!">
       </app-input-control-errors>
     </div>
   </div>

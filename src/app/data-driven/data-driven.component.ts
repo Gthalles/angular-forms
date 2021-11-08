@@ -5,6 +5,8 @@ import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@ang
 import { DropdownService } from '../shared/services/dropdown.service';
 import { CepConsultationService } from '../shared/services/cep-consultation.service';
 import { FormValidationService } from '../shared/services/form-validation.service';
+import { VerifyEmailService } from './services/verifyEmail.service';
+import { map } from 'rxjs/operators'
 import { Observable } from 'rxjs';
 
 @Component({
@@ -27,13 +29,14 @@ export class DataDrivenComponent implements OnInit {
     private http: HttpClient,
     private dropdownService: DropdownService,
     private cepConsultationService: CepConsultationService,
-    private formValidationService: FormValidationService
+    private formValidationService: FormValidationService,
+    private verifyEmailService: VerifyEmailService
   ) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
-      email: [null, [Validators.required, Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]],
+      email: [null, [Validators.required, Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")], this.verifyIfEmailExist.bind(this)],
       confirmEmail: [null, [Validators.required, Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"), this.formValidationService.equalsTo('email')]],
       tech: [null, [Validators.required]],
       profession: [null, [Validators.required]],
@@ -104,7 +107,7 @@ export class DataDrivenComponent implements OnInit {
 
     if (field?.invalid && field.untouched) {
       return false;   // Retorna falso mesmo com o campo inválido pois o mesmo ainda não foi focado
-    } else if (field?.invalid && field.touched) {
+    } else if (field?.hasError('required') && field.touched) {
       return true;    // Única possibilidade para mostrar erros: campo inválido e tocado (focado em algum momento)
     }
     else {
@@ -242,5 +245,23 @@ export class DataDrivenComponent implements OnInit {
   // Método para comparar objetos
   compareProfessions(object1: any, object2: any) {
     return object1 && object2 ? (object1.role === object2.role) : object1 === object2;
+  }
+
+  // Método para verificar de forma assíncrona se o email já existe 
+  verifyIfEmailExist(formControl: FormControl) {
+    return this.verifyEmailService.verifyEmail(formControl.value).pipe(
+      map((exist: any) => exist ? {UnavailableEmail: true} : console.log('Email disponível!'))
+    );
+  }
+
+  verifyEmailError(email: string) {
+    if(this.form.get('email')?.status === 'VALID' && this.form.get('email')?.touched) {
+      return false;
+    }
+    if(this.form.get('email')?.hasError('UnavailableEmail')) {
+      return true;
+    }
+
+    return false;
   }
 }
