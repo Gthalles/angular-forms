@@ -75,10 +75,9 @@
       <!-- CEP FIELD -->
       <div class="col-md-3" [ngClass]="applyErrorStyle('address.cep')">
         <label for="cep" class="control-label">CEP</label>
-        <input type="text" class="form-control" id="cep" formControlName="cep" (blur)="searchCEP()">
+        <input type="text" class="form-control" id="cep" formControlName="cep">
 
         <app-error-message [control]="showName('address.cep')" [label]="'CEP'"></app-error-message>
-
       </div>
 
       <!-- NUMBER FIELD -->

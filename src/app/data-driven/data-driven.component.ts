@@ -6,8 +6,8 @@ import { DropdownService } from '../shared/services/dropdown.service';
 import { CepConsultationService } from '../shared/services/cep-consultation.service';
 import { FormValidationService } from '../shared/services/form-validation.service';
 import { VerifyEmailService } from './services/verifyEmail.service';
-import { map } from 'rxjs/operators'
-import { Observable } from 'rxjs';
+import { map, tap, distinctUntilChanged, switchMap } from 'rxjs/operators'
+import { EMPTY, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-data-driven',
@@ -53,6 +53,13 @@ export class DataDrivenComponent implements OnInit {
       newsletter: [null],
       terms: [false, [Validators.required, Validators.requiredTrue]]
     });
+
+    // Observable para campo de cep, verificando o status e populando os subcampos de endereço
+    this.form.get('address.cep')?.statusChanges.pipe(
+      distinctUntilChanged(),
+      tap((value: any) => console.log('Status do CEP: ' + value)),
+      switchMap((status: any) => status === 'VALID' ? this.cepConsultationService.searchCEP(this.form?.get('address.cep')?.value) : EMPTY)
+    ).subscribe((data: any) => data ? this.populateForm(data) : {});
 
     // Populando campos do tipo select (dropdown/combobox)
     this.professions = this.dropdownService.getProfession();
@@ -159,7 +166,7 @@ export class DataDrivenComponent implements OnInit {
     let cep: string = this.form.get('address.cep')?.value;
 
       if(cep != null && cep !== '') {
-        this.cepConsultationService.searchCEP(cep)?.subscribe((data) => {
+        this.cepConsultationService.searchCEP(cep)?.subscribe((data: any) => {
           console.log(data);
           this.populateForm(data);
         })
