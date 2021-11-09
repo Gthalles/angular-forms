@@ -45,11 +45,11 @@ export class TemplateDrivenComponent implements OnInit {
     }
   }
 
-  searchCEP(cep: string, form: any) {
+  searchCEP(cep: string, form: any): any {
     cep = cep.replace(/\D/g, '');
 
     if(cep != null && cep !== '') {
-      this.cepConsultationService.searchCEP(cep)?.subscribe((data) => {
+      this.cepConsultationService.searchCEP(cep)?.subscribe((data: any) => {
         console.log(data);
         return this.populateForm(data, form);
       })
