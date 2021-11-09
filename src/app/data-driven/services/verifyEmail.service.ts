@@ -9,14 +9,16 @@ export class VerifyEmailService {
 
   constructor(private http: HttpClient) { }
 
-    verifyEmail(email: string) {
+    verifyEmail(email: string): any {
         return this.http.get('assets/data/email.json')
             .pipe(
                 delay(3000),
                 map((data: any) => data.emails),
                 tap(console.log),
+                
                 map((data: { email: string} []) => data.filter(v => v.email === email)),
                 tap(console.log),
+
                 map((data: any[]) => data.length > 0),
                 tap(console.log)
             );
