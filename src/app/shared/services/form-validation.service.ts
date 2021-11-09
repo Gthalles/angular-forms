@@ -5,7 +5,7 @@ import { FormArray, FormControl, FormGroup } from '@angular/forms';
   providedIn: 'root'
 })
 export class FormValidationService {
-    // Função para validar checkbox
+  // Função para validar checkbox
   requiredMinCheckbox(min = 1): FormArray {
     const validator: any = (formArray: FormArray) => {
       const totalChecked = formArray?.controls
@@ -20,11 +20,11 @@ export class FormValidationService {
 
   cepValidator(control: FormControl): any {
     var cep: string = control.value;
-    
-    if(cep && cep != '') {
-       // Expressão regular para validar o CEP
-       var validateCep = /^[0-9]{8}$/;
-       return validateCep.test(cep) ? null : { invalidCep: true };
+
+    if (cep && cep != '') {
+      // Expressão regular para validar o CEP
+      var validateCep = /^[0-9]{8}$/;
+      return validateCep.test(cep) ? null : { invalidCep: true };
     }
 
     return null;
@@ -32,28 +32,43 @@ export class FormValidationService {
 
   equalsTo(otherField: string): any {
     const validator: any = (formControl: FormControl) => {
-      if(otherField == null) {
+      if (otherField == null) {
         throw new Error('É necessário informar um campo.');
       }
 
-      if(!formControl.root || !(<FormGroup>formControl.root).controls) {
+      if (!formControl.root || !(<FormGroup>formControl.root).controls) {
         return null;
       }
 
       const field: any = (<FormGroup>formControl.root).get(otherField);
 
-      if(!field) {
+      if (!field) {
         throw new Error('É necessário informar um campo válido.');
       }
 
-      if(field.value !== formControl.value) {
-        return { equalsTo: otherField};
+      if (field.value !== formControl.value) {
+        return { equalsTo: otherField };
       }
 
       return null;
     };
 
     return validator;
+  }
+
+  getErrorMessage(fieldName: string, validatorName: string, validatorValue?: any) {
+    const config: any = {
+      'requiredTrue': `Please, assine os ${fieldName}.`,
+      'UnavailableEmail': `${fieldName} indisponível.`,
+      'equalsTo': 'Emails não são iguais.',
+      'pattern': `${fieldName} inválido.`,
+      'required': `${fieldName} é obrigatório.`,
+      'minlength': `${fieldName} precisa ter no mínimo ${validatorValue.requiredLength} caracteres.`,
+      'maxlength': `${fieldName} precisa ter no máximo ${validatorValue.requiredLength} caracteres.`,
+      'invalidCep': 'CEP inválido.',
+    };
+
+    return config[validatorName];
   }
 
 }
