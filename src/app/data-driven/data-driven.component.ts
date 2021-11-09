@@ -115,7 +115,7 @@ export class DataDrivenComponent implements OnInit {
     }
   }
 
-  verifyEmail() {
+  verifyEmail(): any {
     let emailField = this.form?.get('email');
 
     if (emailField?.errors) {
@@ -248,13 +248,13 @@ export class DataDrivenComponent implements OnInit {
   }
 
   // Método para verificar de forma assíncrona se o email já existe 
-  verifyIfEmailExist(formControl: FormControl) {
+  verifyIfEmailExist(formControl: FormControl): any {
     return this.verifyEmailService.verifyEmail(formControl.value).pipe(
       map((exist: any) => exist ? {UnavailableEmail: true} : console.log('Email disponível!'))
     );
   }
 
-  verifyEmailError(email: string) {
+  verifyEmailError(email: string): any {
     if(this.form.get('email')?.status === 'VALID' && this.form.get('email')?.touched) {
       return false;
     }
@@ -263,5 +263,10 @@ export class DataDrivenComponent implements OnInit {
     }
 
     return false;
+  }
+
+  // Método para retornar o FormControl a ser usado para busca de erros
+  showName(fieldName: string): any {
+    return this.form?.get(fieldName);
   }
 }
