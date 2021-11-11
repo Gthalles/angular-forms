@@ -1,0 +1,5 @@
+<div class="form-group" [ngClass]="cssClass">
+    <label [attr.for]="id" class="control-label">{{ label }}</label>
+    <input [type]="type" class="form-control" [id]="id" [placeholder]="label" [readonly]="!!isReadOnly" [(ngModel)]="value" (blur)="onTouchedCb($event)">
+    <app-error-message [control]="control" [label]="label"></app-error-message>
+</div>

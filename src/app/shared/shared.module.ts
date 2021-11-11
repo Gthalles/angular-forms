@@ -3,6 +3,8 @@ import { FormDebugComponent } from './form-debug/form-debug.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ErrorMessageComponent } from './error-message/error-message.component';
+import { InputFieldComponent } from './input-field/input-field.component';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -10,15 +12,18 @@ import { ErrorMessageComponent } from './error-message/error-message.component';
   declarations: [
     FormDebugComponent,
     InputControlErrorsComponent,
-    ErrorMessageComponent
+    ErrorMessageComponent,
+    InputFieldComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   exports: [
     FormDebugComponent,
     InputControlErrorsComponent,
-    ErrorMessageComponent
+    ErrorMessageComponent,
+    InputFieldComponent
   ]
 })
 export class SharedModule { }
