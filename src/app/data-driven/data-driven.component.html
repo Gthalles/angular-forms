@@ -3,34 +3,20 @@
   <!-- DEBUG COMPONENT -->
   <app-form-debug [form]="form"></app-form-debug>
 
-  <div class="form-group">
-    <!-- NAME FIELD -->
-    <div class="col-sm-12" [ngClass]="applyErrorStyle('name')">
-      <label for="name" class="control-label">Nome:</label>
-      <input type="text" id="name" class="form-control" placeholder="Nome" formControlName="name">
-      <app-error-message [control]="showName('name')" [label]="'Nome'"></app-error-message>
-    </div>
-  </div>
+  <!-- NAME FIELD -->
+  <app-input-field formControlName="name" class="col-sm-12" [cssClass]="applyErrorStyle('name')"
+    id="name" label="Nome" type="text" [control]="showName('name')">
+  </app-input-field>
 
-  <div class="form-group">
-    <!-- EMAIL FIELD -->
-    <div class="col-sm-12" [ngClass]="applyErrorStyle('email')">
-      <label for="email" class="control-label">Email</label>
-      <input type="text" id="email" class="form-control" placeholder="nome@email.com" formControlName="email">
+  <!-- EMAIL FIELD -->
+  <app-input-field formControlName="email" class="col-sm-12" [cssClass]="applyErrorStyle('email')"
+    id="email" label="Email" type="email" [control]="showName('email')">
+  </app-input-field>
 
-      <app-error-message [control]="showName('email')" [label]="'Email'"></app-error-message>
-
-    </div>
-
-    <!-- EMAIL COMFIRMATION FIELD -->
-    <div class="col-sm-12" [ngClass]="applyErrorStyle('confirmEmail')">
-      <label for="confirmEmail" class="control-label">Confirmação de email</label>
-      <input type="text" id="confirmEmail" class="form-control" placeholder="nome@email.com"
-        formControlName="confirmEmail">
-
-      <app-error-message [control]="showName('confirmEmail')" [label]="'Confirmação de email'"></app-error-message>
-    </div>
-  </div>
+  <!-- EMAIL COMFIRMATION FIELD -->
+  <app-input-field formControlName="confirmEmail" class="col-sm-12" [cssClass]="applyErrorStyle('confirmEmail')"
+    id="confirmEmail" label="Confirmação de email" type="email" [control]="showName('confirmEmail')">
+  </app-input-field>
 
   <div class="form-group">
     <!-- TECHNOLOGIES FIELD -->
@@ -70,66 +56,46 @@
   </div>
 
   <!-- ADDRESS GROUP FIELD -->
-  <div formGroupName="address">
+  <div formGroupName="address" class="inputeoq">
+    <!-- CEP FIELD -->
+    <app-input-field formControlName="cep" class="col-md-3" [cssClass]="applyErrorStyle('cep')"
+      id="cep" label="CEP" type="text" [control]="showName('address.cep')">
+    </app-input-field>
+
+    <!-- NUMBER FIELD -->
+    <app-input-field formControlName="number" class="col-md-3" [cssClass]="applyErrorStyle('address.number')"
+      id="number" label="Número" type="text" [control]="showName('address.number')">
+    </app-input-field>
+
+    <!-- COMPLEMENT FIELD -->
+    <app-input-field  formControlName="complement"  class="col-md-6" [cssClass]="applyErrorStyle('address.complement')"
+      id="complement" label="Complemento" type="text" [control]="showName('address.complement')">
+    </app-input-field>
+
+    <!-- STREET FIELD -->
+    <app-input-field  formControlName="street" class="col-md-12" [cssClass]="applyErrorStyle('address.street')"
+      id="street" label="Rua" type="text" [control]="showName('address.street')" [isReadOnly]="true">
+    </app-input-field>
+
+    <!-- NEIGHBORHOOD FIELD -->
+    <app-input-field  formControlName="neighborhood" class="col-md-4" [cssClass]="applyErrorStyle('address.neighborhood')"
+      id="neighborhood" label="Bairro" type="text" [control]="showName('address.neighborhood')" [isReadOnly]="true">
+    </app-input-field>
+
+    <!-- CITY FIELD -->
+    <app-input-field formControlName="city" class="col-md-4" [cssClass]="applyErrorStyle('address.city')"
+      id="city" label="Cidade" type="text" [control]="showName('address.city')" [isReadOnly]="true">
+    </app-input-field>
+
+    <!-- STATE FIELD -->
     <div class="form-group">
-      <!-- CEP FIELD -->
-      <div class="col-md-3" [ngClass]="applyErrorStyle('address.cep')">
-        <label for="cep" class="control-label">CEP</label>
-        <input type="text" class="form-control" id="cep" formControlName="cep">
-
-        <app-error-message [control]="showName('address.cep')" [label]="'CEP'"></app-error-message>
-      </div>
-
-      <!-- NUMBER FIELD -->
-      <div class="col-md-6" [ngClass]="applyErrorStyle('address.number')">
-        <label for="number" class="control-label">Número</label>
-        <input type="text" class="form-control" id="number" formControlName="number">
-
-        <app-error-message [control]="showName('address.number')" [label]="'Número'"></app-error-message>
-      </div>
-
-      <!-- COMPLEMENT FIELD -->
-      <div class="col-md-3">
-        <label for="complement" class="control-label">Complemento</label>
-        <input type="text" class="form-control" id="complement" formControlName="complement">
-      </div>
-    </div>
-
-    <div class="form-group" [ngClass]="applyErrorStyle('address.street')">
-      <!-- STREET FIELD -->
-      <div class="col-sm-12">
-        <label for="street" class="control-label">Rua:</label>
-        <input type="text" class="form-control" id="street" formControlName="street">
-
-        <app-error-message [control]="showName('address.street')" [label]="'Rua'"></app-error-message>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <!-- NEIGHBORHOOD FIELD -->
-      <div class="col-md-5" [ngClass]="applyErrorStyle('address.neighborhood')">
-        <label for="neighborhood" class="control-label">Bairro</label>
-        <input type="text" class="form-control" id="neighborhood" formControlName="neighborhood">
-
-        <app-error-message [control]="showName('address.neighborhood')" [label]="'Bairro'"></app-error-message>
-      </div>
-
-      <!-- CITY FIELD -->
-      <div class="col-md-4" [ngClass]="applyErrorStyle('address.city')">
-        <label for="city" class="control-label">Cidade</label>
-        <input type="text" class="form-control" id="city" formControlName="city">
-
-        <app-error-message [control]="showName('address.city')" [label]="'Cidade'"></app-error-message>
-      </div>
-
-      <!-- STATE FIELD -->
-      <div class="col-md-3" [ngClass]="applyErrorStyle('address.state')">
+      <div class="col-md-4" [ngClass]="applyErrorStyle('state')">
         <label for="state" class="control-label">Estado</label>
         <select class="form-control" id="state" formControlName="state">
           <option *ngFor="let state of states | async" [value]="state.initials">{{ state.initials }}</option>
         </select>
 
-        <app-error-message [control]="showName('address.state')" [label]="'Estado'"></app-error-message>
+        <app-error-message [control]="showName('state')" [label]="'Estado'"></app-error-message>
       </div>
     </div>
   </div>
