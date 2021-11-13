@@ -1,42 +1,42 @@
-<form class="form-horizontal" [formGroup]="form" (ngSubmit)="onSubmit(form)">
+<form class="form-horizontal" [formGroup]="form" (ngSubmit)="onSubmit()">
 
   <!-- DEBUG COMPONENT -->
   <app-form-debug [form]="form"></app-form-debug>
 
   <!-- NAME FIELD -->
   <app-input-field formControlName="name" class="col-sm-12" [cssClass]="applyErrorStyle('name')"
-    id="name" label="Nome" type="text" [control]="showName('name')">
+    id="name" label="Nome" type="text" [control]="getField('name')">
   </app-input-field>
 
   <!-- EMAIL FIELD -->
   <app-input-field formControlName="email" class="col-sm-12" [cssClass]="applyErrorStyle('email')"
-    id="email" label="Email" type="email" [control]="showName('email')">
+    id="email" label="Email" type="email" [control]="getField('email')">
   </app-input-field>
 
   <!-- EMAIL COMFIRMATION FIELD -->
   <app-input-field formControlName="confirmEmail" class="col-sm-12" [cssClass]="applyErrorStyle('confirmEmail')"
-    id="confirmEmail" label="Confirmação de email" type="email" [control]="showName('confirmEmail')">
+    id="confirmEmail" label="Confirmação de email" type="email" [control]="getField('confirmEmail')">
   </app-input-field>
 
   <div class="form-group">
     <!-- TECHNOLOGIES FIELD -->
-    <div class="col-md-6" [ngClass]="applyErrorStyle('tech')">
-      <label for="tech" class="control-label">Tecnologias</label>
-      <select multiple class="form-control" id="tech" formControlName="tech">
+    <div class="col-md-6" [ngClass]="applyErrorStyle('techs')">
+      <label for="techs" class="control-label">Tecnologias</label>
+      <select multiple class="form-control" id="techs" formControlName="techs">
         <option *ngFor="let tech of techs" [ngValue]="tech">{{ tech.name }}</option>
       </select>
 
-      <app-error-message [control]="showName('tech')" [label]="'Tecnologia'"></app-error-message>
+      <app-error-message [control]="getField('tech')" [label]="'Tecnologia'"></app-error-message>
     </div>
 
     <!-- PROFESSION FIELD -->
     <div class="col-md-6" [ngClass]="applyErrorStyle('profession')">
       <label for="profession" class="control-label">Profissão / Cargo</label>
-      <select class="form-control" id="profession" formControlName="profession" [compareWith]="compareProfessions">
+      <select class="form-control" id="profession" formControlName="profession" [compareWith]="compareObjects">
         <option *ngFor="let profession of professions" [ngValue]="profession">{{ profession.role }}</option>
       </select>
 
-      <app-error-message [control]="showName('profession')" [label]="'Cargo'"></app-error-message>
+      <app-error-message [control]="getField('profession')" [label]="'Cargo'"></app-error-message>
     </div>
 
     <!-- FRAMEWORKS FIELD -->
@@ -50,41 +50,41 @@
           </label>
         </div>
 
-        <app-error-message [control]="showName('frameworks')" [label]="'Framework'"></app-error-message>
+        <app-error-message [control]="getField('frameworks')" [label]="'Framework'"></app-error-message>
       </div>
     </div>
   </div>
 
   <!-- ADDRESS GROUP FIELD -->
-  <div formGroupName="address" class="inputeoq">
+  <div formGroupName="address">
     <!-- CEP FIELD -->
     <app-input-field formControlName="cep" class="col-md-3" [cssClass]="applyErrorStyle('cep')"
-      id="cep" label="CEP" type="text" [control]="showName('address.cep')">
+      id="cep" label="CEP" type="text" [control]="getField('address.cep')">
     </app-input-field>
 
     <!-- NUMBER FIELD -->
-    <app-input-field formControlName="number" class="col-md-3" [cssClass]="applyErrorStyle('address.number')"
-      id="number" label="Número" type="text" [control]="showName('address.number')">
+    <app-input-field formControlName="number" class="col-md-3" [cssClass]="applyErrorStyle('number')"
+      id="number" label="Número" type="text" [control]="getField('address.number')">
     </app-input-field>
 
     <!-- COMPLEMENT FIELD -->
-    <app-input-field  formControlName="complement"  class="col-md-6" [cssClass]="applyErrorStyle('address.complement')"
-      id="complement" label="Complemento" type="text" [control]="showName('address.complement')">
+    <app-input-field  formControlName="complement"  class="col-md-6" [cssClass]="applyErrorStyle('complement')"
+      id="complement" label="Complemento" type="text" [control]="getField('address.complement')">
     </app-input-field>
 
     <!-- STREET FIELD -->
-    <app-input-field  formControlName="street" class="col-md-12" [cssClass]="applyErrorStyle('address.street')"
-      id="street" label="Rua" type="text" [control]="showName('address.street')" [isReadOnly]="true">
+    <app-input-field  formControlName="street" class="col-md-12" [cssClass]="applyErrorStyle('street')"
+      id="street" label="Rua" type="text" [control]="getField('address.street')" [isReadOnly]="true">
     </app-input-field>
 
     <!-- NEIGHBORHOOD FIELD -->
-    <app-input-field  formControlName="neighborhood" class="col-md-4" [cssClass]="applyErrorStyle('address.neighborhood')"
-      id="neighborhood" label="Bairro" type="text" [control]="showName('address.neighborhood')" [isReadOnly]="true">
+    <app-input-field  formControlName="neighborhood" class="col-md-4" [cssClass]="applyErrorStyle('neighborhood')"
+      id="neighborhood" label="Bairro" type="text" [control]="getField('address.neighborhood')" [isReadOnly]="true">
     </app-input-field>
 
     <!-- CITY FIELD -->
-    <app-input-field formControlName="city" class="col-md-4" [cssClass]="applyErrorStyle('address.city')"
-      id="city" label="Cidade" type="text" [control]="showName('address.city')" [isReadOnly]="true">
+    <app-input-field formControlName="city" class="col-md-4" [cssClass]="applyErrorStyle('city')"
+      id="city" label="Cidade" type="text" [control]="getField('address.city')" [isReadOnly]="true">
     </app-input-field>
 
     <!-- STATE FIELD -->
@@ -95,7 +95,7 @@
           <option *ngFor="let state of states | async" [value]="state.initials">{{ state.initials }}</option>
         </select>
 
-        <app-error-message [control]="showName('state')" [label]="'Estado'"></app-error-message>
+        <app-error-message [control]="getField('address.state')" [label]="'Estado'"></app-error-message>
       </div>
     </div>
   </div>
@@ -122,19 +122,8 @@
           <input id="terms" type="checkbox" formControlName="terms" (click)="setTerms()"> Li e aceito os termos
         </label>
       </div>
-      <app-error-message [control]="showName('terms')" [label]="'Termo'"></app-error-message>
+      <app-error-message [control]="getField('terms')" [label]="'Termo'"></app-error-message>
     </div>
-  </div>
-
-  <div class="set-buttons">
-    <button type="button" (click)="setProfissionAsJuniorBackendDev()" class="btn btn-primary">Junior backend
-      developer</button>
-    <button type="button" (click)="setProfissionAsSeniorBackendDev()" class="btn btn-primary">Senior backend
-      developer</button>
-    <button type="button" (click)="setProfissionAsJuniorFrontendDev()" class="btn btn-primary">Junior frontend
-      developer</button>
-    <button type="button" (click)="setProfissionAsSeniorFrontendDev()" class="btn btn-primary">Senior frontend
-      developer</button>
   </div>
 
   <div class="submit-buttons">
