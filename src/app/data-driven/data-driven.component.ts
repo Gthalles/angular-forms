@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
-import { EMPTY, Observable } from 'rxjs';
+import { EMPTY } from 'rxjs';
 import { map, tap, distinctUntilChanged, switchMap } from 'rxjs/operators'
 
 import { BaseFormComponent } from '../shared/base-form/base-form.component';
@@ -19,7 +19,8 @@ import { UF } from 'src/assets/data/UF.model';
 export class DataDrivenComponent extends BaseFormComponent implements OnInit {
 
   // Atributos
-  states!: Observable<UF[]>;
+  states!: any[];
+  cities!: any[];
   professions!: any[];
   techs!: any[];
   newsletterOp!: any[];
@@ -41,9 +42,9 @@ export class DataDrivenComponent extends BaseFormComponent implements OnInit {
     // Populando campos do tipo select (dropdown/combobox)
     this.techs = this.dropdownService.getTechs();
     this.professions = this.dropdownService.getProfession();
-    this.states = this.dropdownService.getUFs();
+    this.dropdownService.getUFs().subscribe((data: any) => this.states = data);
     this.newsletterOp = this.dropdownService.getNewsletter();
-
+    
     this.form = this.formBuilder.group({
       name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
       email: [null, [Validators.required, Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")], this.verifyIfEmailExist.bind(this)],
@@ -73,6 +74,15 @@ export class DataDrivenComponent extends BaseFormComponent implements OnInit {
       tap((value: any) => console.log('Status do CEP: ' + value)),
       switchMap((status: any) => status === 'VALID' ? this.cepConsultationService.searchCEP(this.form?.get('address.cep')?.value) : EMPTY)
     ).subscribe((data: any) => data ? this.populateForm(data) : {});
+
+    this.getField('address.state')?.valueChanges.pipe(
+      tap((uf: string) => console.log('Novo estado: ', uf)),
+      map((uf: string) => this.states.filter((v: UF) => v.initials === uf)),
+      map((ufs: any) => ufs && ufs.length > 0 ? ufs[0].id : EMPTY ),
+      switchMap((stateId: number) => this.dropdownService.getCities(stateId)),
+      tap(console.log)
+    ).subscribe((cities: any) => this.cities = cities);
+
   }
 
   submit() {
