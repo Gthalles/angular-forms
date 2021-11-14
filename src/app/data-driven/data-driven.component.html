@@ -83,16 +83,23 @@
     </app-input-field>
 
     <!-- CITY FIELD -->
-    <app-input-field formControlName="city" class="col-md-4" [cssClass]="applyErrorStyle('city')"
-      id="city" label="Cidade" type="text" [control]="getField('address.city')" [isReadOnly]="true">
-    </app-input-field>
+    <div class="form-group">
+      <div class="col-md-3" [ngClass]="applyErrorStyle('city')">
+        <label for="city" class="control-label">Cidade</label>
+        <select class="form-control" id="city" formControlName="city">
+          <option *ngFor="let city of cities" [value]="city.name">{{ city.name }}</option>
+        </select>
+
+        <app-error-message [control]="getField('address.city')" [label]="'Cidade'"></app-error-message>
+      </div>
+    </div>
 
     <!-- STATE FIELD -->
     <div class="form-group">
-      <div class="col-md-4" [ngClass]="applyErrorStyle('state')">
+      <div class="col-md-3" [ngClass]="applyErrorStyle('state')">
         <label for="state" class="control-label">Estado</label>
         <select class="form-control" id="state" formControlName="state">
-          <option *ngFor="let state of states | async" [value]="state.initials">{{ state.initials }}</option>
+          <option *ngFor="let state of states" [value]="state.initials">{{ state.initials }}</option>
         </select>
 
         <app-error-message [control]="getField('address.state')" [label]="'Estado'"></app-error-message>
