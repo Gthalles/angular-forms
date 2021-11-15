@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UF } from 'src/assets/data/UF.model';
+import { UF } from 'src/assets/data/uf.interface';
+import { city } from 'src/assets/data/city.interface'
+import { map } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +15,12 @@ export class DropdownService {
 
   getUFs(): Observable<UF[]> {
     return this.http.get<UF[]>('assets/data/uf.json');
+  }
+
+  getCities(stateId: number): any {
+    return this.http.get<city[]>('assets/data/cities.json').pipe(
+      map((cities: city[]) => cities.filter((c) => c.uf == stateId))
+    );
   }
 
   getProfession(): any {
