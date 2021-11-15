@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { EMPTY } from 'rxjs';
-import { map, tap, distinctUntilChanged, switchMap } from 'rxjs/operators'
+import { map, tap, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 import { BaseFormComponent } from '../shared/base-form/base-form.component';
 import { DropdownService } from '../shared/services/dropdown.service';
 import { CepConsultationService } from '../shared/services/cep-consultation.service';
 import { FormValidationService } from '../shared/services/form-validation.service';
 import { VerifyEmailService } from './services/verifyEmail.service';
-import { UF } from 'src/assets/data/UF.model';
+import { UF } from 'src/assets/data/uf.interface';
 
 @Component({
   selector: 'app-data-driven',
@@ -141,10 +141,11 @@ export class DataDrivenComponent extends BaseFormComponent implements OnInit {
 
   // Método para verificar de forma assíncrona se o email já existe 
   verifyIfEmailExist(formControl: FormControl): any {
-    
-    return this.verifyEmailService.verifyEmail(formControl.value).pipe(
+    const result: any = this.verifyEmailService.verifyEmail(formControl.value).pipe(
       map((exist: any) => exist ? { UnavailableEmail: true } : console.log('Email disponível!'))
     );
+
+    return result; 
   }
 
   // Método referente ao campo para frameworks

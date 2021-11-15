@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UF } from 'src/assets/data/UF.model';
-import { city } from 'src/assets/data/city.model'
+import { UF } from 'src/assets/data/uf.interface';
+import { city } from 'src/assets/data/city.interface'
 import { map } from 'rxjs/operators';
 
 
